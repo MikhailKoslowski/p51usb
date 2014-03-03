@@ -79,7 +79,7 @@
 <p>Ao ser questionado se deseja incluir o arquivo Startup.A51 no projeto, escolha <code>Não</code></p>
 <img src="images\helloworld\uvision4.png" alt="">
 
-Pronto! O seu primeiro projeto está criado.
+<p>Pronto! O seu primeiro projeto está criado.</p>
 
 <h4>2. Configurando o projeto</h4>
 
@@ -93,10 +93,54 @@ Pronto! O seu primeiro projeto está criado.
 <p>Na aba <code>A51</code> desmarque a opção <code>Define 8051 SFR Names</code></p>
 <img src="images\helloworld\uvision7.png" alt="">
 
-Pronto! O seu projeto está configurado.
-
+<p>Pronto! O seu projeto está configurado.</p>
 <h4>3. Adicionando o arquivo com o código fonte</h4>
+
+<p>Crie um novo arquivo clicando no ícone <code>New</code> ou <code>Ctrl+N</code></p>
+<img src="images\helloworld\uvision8.png" alt="">
+
+<p>Digite o código fonte:</p>
+<pre><code>;Placa Kit_8051_USB
+;Programa de teste
+;------------------------------------------------------
+;Chave SW1(P3.2) faz toogle do Led3(P1.4)
+
+#include "at89c5131.h"
+
+; Definições da P51USB
+LED3 EQU P1.4
+SW1 EQU P3.2
+
+ORG 0x00
+LJMP main
+
+main:
+	JNB SW1, toggle
+toggle:
+	CPL LED3
+	SJMP main
+END</code></pre>
+
+<p>Salve o arquivo com a extensão <code>.a51</code></p>
+<img src="images\helloworld\uvision9.png" alt="">
+
+<p>Por fim, adicione o arquivo ao projeto</p>
+<p>Clique com o botão direito em <code>Source Group 1</code> e escolha <code>Add Files to Group 'Source Group 1'</code></p>
+<img src="images\helloworld\uvision10.png" alt="">
+
+<p>Altere o tipo de arquivo para <code>ASM Source file</code>, selecione o arquivo salvo na etapa anterior, clique em <code>Add</code> e depois em <code>Close</code></p>
+<img src="images\helloworld\uvision11.png" alt="">
+
+<p>Pronto! O código fonte foi criado e adicionado ao projeto.</p>
+
 <h4>4. Assemblando e linkando</h4>
+<p>Para assemblar e linkar o projeto clique com o botão direito em <code>Target 1</code> e depois em <code>Build Target</code>. Opcionalmente pode ser utilizado o botão <code>Build</code> na barra de ferramentas ou a tecla de atalho <code>F7</code></p>
+<img src="images\helloworld\uvision12.png" alt="">
+
+<p>Se não houver erros no projeto a janela <code>Build Output</code> terá a saída semelhante a esta:</p>
+<img src="images\helloworld\uvision13.png" alt="">
+
+<p>Pronto! Agora já temos um arquivo hex pronto para ser gravado na P51USB.</p>
 
 <h3>
 <a name="flip" class="anchor" href="#flip"><span class="octicon octicon-link"></span></a>Gravando o programa com o FLIP</h3>
