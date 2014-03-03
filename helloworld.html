@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="P51USB : P51USB" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>P51USB</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/MikhailKoslowski/p51usb">View on GitHub</a>
+
+          <h1 id="project_title">P51USB</h1>
+          <h2 id="project_tagline">Exemplo introdutório ("Hello world")</h2>
+
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+      
+<h3>
+<a name="topicos" class="anchor" href="#topicos"><span class="octicon octicon-link"></span></a>Tópicos:</h3>
+    <a href="#requisitos">Requisitos</a></br>
+    <a href="#uvision">Criando o programa com o uVision</a></br>
+    <a href="#flip">Gravando o programa com o FLIP</a></br>
+    <a href="#teste">Testando o programa</a>
+    
+      
+<h3>
+<a name="requisitos" class="anchor" href="#requisitos"><span class="octicon octicon-link"></span></a>Requisitos</h3>
+
+<p>
+<dl>
+    <dt>Hardware:</dt>
+        <dd>
+            <ul>
+            <li>Placa P51USB</li>
+            <li>Cabo USB-B ou USB-miniB</li>
+            </ul>
+        </dd>
+    <dt>Software:</dt>
+        <dd>
+            <ul>
+            <li><a href="https://www.keil.com/c51/demo/eval/c51.htm">Keil uVision 4 C51 versão de avaliação</a></li>
+            <li><a href="http://www.atmel.com/tools/flip.aspx">Atmel FLIP 3.4.7</a></li>
+            </ul>
+        </dd>
+</dl>
+</p>
+
+<p>A versão de avaliação do uVision possui todas as funcionalidades da versão completa porém é limitada em 4k de código por projeto.</p>
+<p>O Atmel FLIP deverá ser instalado preferencialmente com o JRE incluído.</p>
+
+<h3>
+<a name="uvision" class="anchor" href="#uvision"><span class="octicon octicon-link"></span></a>Criando o programa com o uVision</h3>
+
+<h4>1. Criando o projeto no uVision</h4>
+
+<p>Ao iniciar o uVision, a tela inicial será semelhante a esta:</p>
+<img src="images\helloworld\uvision1.png" alt="">
+
+<p>Para criar um novo projeto, vamos em <code>Project->New uVision Project...</code></p>
+<p>Escolha um diretório onde o projeto será criado e um nome</p>
+<img src="images\helloworld\uvision2.png" alt="">
+
+<p>Na proxima tela, escolha o chip <code>Atmel -> AT89C5131</code></p>
+<img src="images\helloworld\uvision3.png" alt="">
+
+<p>Ao ser questionado se deseja incluir o arquivo Startup.A51 no projeto, escolha <code>Não</code></p>
+<img src="images\helloworld\uvision4.png" alt="">
+
+Pronto! O seu primeiro projeto está criado.
+
+<h4>2. Configurando o projeto</h4>
+
+<p>Precisamos configurar o projeto para gerar um arquivo .hex como saída e para não incluir os símbolos padrões do 8051 (vamos utilizar um .h para este fim)</p>
+<p>Clique com o botão direito do mouse em <code>Target 1</code> e escolha a opção <code>Options for Targer 'Target 1'</code>
+<img src="images\helloworld\uvision5.png" alt="">
+
+<p>Na aba <code>Output</code> selecione a opção <code>Create HEX File</code>, por padrão o arquivo hex tem o formato <code>HEX-80</code></p>
+<img src="images\helloworld\uvision6.png" alt="">
+
+<p>Na aba <code>A51</code> desmarque a opção <code>Define 8051 SFR Names</code></p>
+<img src="images\helloworld\uvision7.png" alt="">
+
+Pronto! O seu projeto está configurado.
+
+<h4>3. Adicionando o arquivo com o código fonte</h4>
+<h4>4. Assemblando e linkando</h4>
+
+<h3>
+<a name="flip" class="anchor" href="#flip"><span class="octicon octicon-link"></span></a>Gravando o programa com o FLIP</h3>
+
+<h3>
+<a name="teste" class="anchor" href="#teste"><span class="octicon octicon-link"></span></a>Testando o programa</h3>
+
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">P51USB maintained by <a href="https://github.com/MikhailKoslowski">MikhailKoslowski</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
