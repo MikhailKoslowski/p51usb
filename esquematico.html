@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="P51USB : P51USB" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>P51USB</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/MikhailKoslowski/p51usb">View on GitHub</a>
+
+          <h1 id="project_title"><a href="index.html">P51USB</a></h1>
+          <h2 id="project_tagline">Esquemático e lista de componentes</h2>
+
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a name="esquematico" class="anchor" href="#esquematico"><span class="octicon octicon-link"></span></a>Esquemático</h3>
+
+<p>O esquemático está dividido em 4 páginas, de acordo com as seguintes funcionalidades: Circuito mínimo para o funcionamento do microcontrolador, IO, Barramentos Seriais, Ports.</p>
+<p><a href="https://github.com/MikhailKoslowski/p51usb/raw/master/P51USB_v1.0_schem.pdf">Esquemático em pdf (400kB)</a></p>
+
+<h3><a name="lista" class="anchor" href="#lista"><span class="octicon octicon-link"></span></a>Lista de componentes</h3>
+<p>
+<dl>
+    <dt>Resistores:</dt>
+        <dd>
+            <ul>
+            <li>2x 27R [R1, R2]</li>
+            <li>2x 100R [R4, R16]</li>
+            <li>2x 470R [R17, R20]
+            <li>2x 1k5 [R3, R5]</li>
+            <li>3x 4k7 [R6, R18, R19]</li>
+            <li>10x 10k [R8~R15]</li>
+            <li>1x trimpot 50k [R7]</li>
+            
+            </ul>
+        </dd>
+        <p>O modelo do trimpot é <a href="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRto9pJ7FWgwBq03rVCtZC_IYZ8APhDHVBwCuKouEXHRo16FfrlEg">este</a>.</p>
+        <p>Os resistores R18 e R19 servem de pull-up para as linhas de dados e clock da I2C, é recomendável montar um pino de barra torneada ou mini modu para facilitar a substituição do resistor por outro valor caso necessário.</p>
+    <dt>Capacitores:</dt>
+        <dd>
+            <ul>
+            <li>2x 22p [C1, C2]</li>
+            <li>1x 2.2n [C4]
+            <li>1x 10n [C3]</li>
+            <li>3x 100n [C6, C7, C14]</li>
+            <li>1x 1u [C8]</li>
+            <li>1x 4.7u [C5]</li>
+            <li>5x 10u [C9~C13]</li>
+            </ul>
+        </dd>
+        <p>Os capacitores de nano e pico farad são disco cerâmico, os de micro farad são eletrolíticos.</p>
+    <dt>Circuitos integrados:</dt>
+        <dd>
+            <ul>
+            <li>1x AT89C5131A-M PLCC-52</li>
+            <li>1x MAX232 DIP-16</li>
+            <li>1x ADC0832 DIP-8</li>
+            <li>1x DS1307 DIP-8</li>
+            </ul>
+        </dd>
+    <dt>Outros:</dt>
+        <dd>
+            <ul>
+            <li>1x Cristal 24MHz</li>
+            <li>1x Cristal 32kHz</li>
+            <li>1x USB-B ou USB-miniB "through-hole" para PCB</li>
+            <li>1x DB9 Fêmea para PCB</li>
+            <li>4x Chave táctil 4 terminais para PCB</li>
+            <li>4x LED, não alto brilho, cor de sua preferência</li>
+            <li>8 jumpers, preferencialmente com aleta.</li>
+            <li>1x Soquete PLCC-52 "through-hole"</li>
+            <li>1x Soquete DIP-16</li>
+            <li>2x Soquete DIP-8</li>
+            <li>1x Soquete para bateria CR2032 vertical</li>
+            <li>1x Barra de pinos estampado 2x40 (para jumper do ADC)</li>
+            <li>Barras de pino estampado, macho ou fêmea (são vendidas em peças de 1x40)</li>
+            </ul>
+        </dd>
+        <p>Para a montagem dos jumpers são necessárias barras de pino "macho". As demais barras de pinos podem ser macho ou fêmea, de acordo com a sua preferência.</p>
+</dl>
+</p>
+
+</section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">P51USB maintained by <a href="https://github.com/MikhailKoslowski">MikhailKoslowski</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>

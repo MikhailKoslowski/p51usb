@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="P51USB : P51USB" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>P51USB</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/MikhailKoslowski/p51usb">View on GitHub</a>
+
+          <h1 id="project_title"><a href="index.html">P51USB</a></h1>
+          <h2 id="project_tagline">Descrição dos jumpers</h2>
+
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a name="jumpers" class="anchor" href="#jumpers"><span class="octicon octicon-link"></span></a>Descrição dos jumpers</h3>
+<p>A P51USB contém alguns jumpers para alterar o funcionamento de alguns de seus periféricos, todos são indicados na placa pelo prefixo J_. A seguir é apresentada uma breve descrição de cada um deles.</p>
+<p>
+<dl>
+    <dt>J_VCC</dt>
+        <dd>
+            <ul>
+            <li>Aberto: Remove a alimentação da placa.</li>
+            <li>Fechado: Conecta o 5V da USB na linha VCC da placa, alimentando todos os CIs</li>
+            </ul>
+        </dd>
+    <dt>J_USB</dt>
+        <dd>
+            <ul>
+            <li>Aberto: Desconecta o resistor de pull-up da USB, desabilitando a comunicação com o Host.</li>
+            <li>Fechado: Conecta o resistor de pull-up da USB, habilitando a comunicação com o Host.</li>
+            </ul>
+        </dd>
+    <dt>JPx</dt>
+        <dd>
+            <ul>
+            <li>Aberto: Desconecta o led x do circuito de acionamento</li>
+            <li>Fechado: Conecta o led x ao circuito de acionamento</li>
+            </ul>
+        </dd>
+    <dt>J_SW2/SQW</dt>
+        <dd>
+            <ul>
+            <li>Posição 1-2: Conecta o gerador de onda quadrada do RTC (pino 7 do DS1307) ao P3.4</li>
+            <li>Posição 2-3: Conecta o SW2 ao P3.4</li>
+            </ul>
+        </dd>
+        <p>Obs: Em ambos os casos o pull-up é interno ao P3.4</p>
+    <dt>J_ADC</dt>
+        <dd>
+            <ul>
+            <li>Posição 1-3: Conecta o VREF do LCD ao CH0 do ADC</li>
+            <li>Posição 3-5: Conecta o GND ao CH0 do ADC</li>
+            <li>Posição 2-4: Conecta o VBAT ao CH1 do ADC</li>
+            <li>Posição 4-6: Conecta o GND ao CH1 do ADC</li>
+            </ul>
+        </dd>
+        <p>Obs: Nunca conecte os pinos pares (2,4 e 6) aos ímpares (1,3 e 5).</p>
+</dl>
+</p>
+</section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">P51USB maintained by <a href="https://github.com/MikhailKoslowski">MikhailKoslowski</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
