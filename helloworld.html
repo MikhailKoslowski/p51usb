@@ -81,13 +81,13 @@
 <img src="images\helloworld\uvision1.png" alt="">
 
 <p>Para criar um novo projeto, vamos em <code>Project->New uVision Project...</code></p>
-<p>Escolha um diretório onde o projeto será criado e um nome</p>
+<p>Escolha um diretório onde o projeto será criado e um nome.</p>
 <img src="images\helloworld\uvision2.png" alt="">
 
-<p>Na proxima tela, escolha o chip <code>Atmel -> AT89C5131</code></p>
+<p>Na proxima tela, escolha o chip <code>Atmel -> AT89C5131</code>.</p>
 <img src="images\helloworld\uvision3.png" alt="">
 
-<p>Ao ser questionado se deseja incluir o arquivo Startup.A51 no projeto, escolha <code>Não</code></p>
+<p>Ao ser questionado se deseja incluir o arquivo Startup.A51 no projeto, escolha <code>Não</code>.</p>
 <img src="images\helloworld\uvision4.png" alt="">
 
 <p>Pronto! O seu primeiro projeto está criado.</p>
@@ -95,19 +95,19 @@
 <h4>2. Configurando o projeto</h4>
 
 <p>Precisamos configurar o projeto para gerar um arquivo .hex como saída e para não incluir os símbolos padrões do 8051 (vamos utilizar um .h para este fim)</p>
-<p>Clique com o botão direito do mouse em <code>Target 1</code> e escolha a opção <code>Options for Targer 'Target 1'</code>
+<p>Clique com o botão direito do mouse em <code>Target 1</code> e escolha a opção <code>Options for Targer 'Target 1'</code>.</p>
 <img src="images\helloworld\uvision5.png" alt="">
 
-<p>Na aba <code>Output</code> selecione a opção <code>Create HEX File</code>, por padrão o arquivo hex tem o formato <code>HEX-80</code></p>
+<p>Na aba <code>Output</code> selecione a opção <code>Create HEX File</code>, por padrão o arquivo hex tem o formato <code>HEX-80</code>.</p>
 <img src="images\helloworld\uvision6.png" alt="">
 
-<p>Na aba <code>A51</code> desmarque a opção <code>Define 8051 SFR Names</code></p>
+<p>Na aba <code>A51</code> desmarque a opção <code>Define 8051 SFR Names</code>.</p>
 <img src="images\helloworld\uvision7.png" alt="">
 
 <p>Pronto! O seu projeto está configurado.</p>
 <h4>3. Adicionando o arquivo com o código fonte</h4>
 
-<p>Crie um novo arquivo clicando no ícone <code>New</code> ou <code>Ctrl+N</code></p>
+<p>Crie um novo arquivo clicando no ícone <code>New</code> ou <code>Ctrl+N</code>.</p>
 <img src="images\helloworld\uvision8.png" alt="">
 
 <p>Digite o código fonte:</p>
@@ -132,20 +132,20 @@ toggle:
 	SJMP main
 END</code></pre>
 
-<p>Salve o arquivo com a extensão <code>.a51</code></p>
+<p>Salve o arquivo com a extensão <code>.a51</code>.</p>
 <img src="images\helloworld\uvision9.png" alt="">
 
-<p>Por fim, adicione o arquivo ao projeto</p>
-<p>Clique com o botão direito em <code>Source Group 1</code> e escolha <code>Add Files to Group 'Source Group 1'</code></p>
+<p>Por fim, adicione o arquivo ao projeto.</p>
+<p>Clique com o botão direito em <code>Source Group 1</code> e escolha <code>Add Files to Group 'Source Group 1'</code>.</p>
 <img src="images\helloworld\uvision10.png" alt="">
 
-<p>Altere o tipo de arquivo para <code>ASM Source file</code>, selecione o arquivo salvo na etapa anterior, clique em <code>Add</code> e depois em <code>Close</code></p>
+<p>Altere o tipo de arquivo para <code>ASM Source file</code>, selecione o arquivo salvo na etapa anterior, clique em <code>Add</code> e depois em <code>Close</code>.</p>
 <img src="images\helloworld\uvision11.png" alt="">
 
 <p>Pronto! O código fonte foi criado e adicionado ao projeto.</p>
 
 <h4>4. Assemblando e linkando</h4>
-<p>Para assemblar e linkar o projeto clique com o botão direito em <code>Target 1</code> e depois em <code>Build Target</code>. Opcionalmente pode ser utilizado o botão <code>Build</code> na barra de ferramentas ou a tecla de atalho <code>F7</code></p>
+<p>Para assemblar e linkar o projeto clique com o botão direito em <code>Target 1</code> e depois em <code>Build Target</code>. Opcionalmente pode ser utilizado o botão <code>Build</code> na barra de ferramentas ou a tecla de atalho <code>F7</code>.</p>
 <img src="images\helloworld\uvision12.png" alt="">
 
 <p>Se não houver erros no projeto a janela <code>Build Output</code> terá a saída semelhante a esta:</p>
@@ -171,51 +171,51 @@ A P51USB já possui uma chave para este fim, chamada ISP.</p>
         <li>5. Conecte o jumper J_USB</li>           
         </ul>
     </dd>
-    <p>Obs: Na primeira conexão com o computador host poderá haver a necessidade de instalação dos <a href="drivers.html">drivers</a></p>
+    <p>Obs: Na primeira conexão com o computador host poderá haver a necessidade de instalação dos <a href="drivers.html">drivers</a>.</p>
  </dl>
  <p>Para certificar-se que a placa encontra-se em modo bootloader verifique se:
  <ul>
     <li>1. O único LED aceso na placa é o LED4, indicando que a mesma está alimentada.</li>
     <li>2. O jumper J_USB permanece conectado durante toda a operação do bootloader. Caso ele seja removido, mesmo que acidentalmente, o processo deverá ser reiniciado.</li>
-    <li>3. No Windows, verifique se o gerenciador de dispositivos mostra corretamente o dispositivo
+    <li>3. No Windows, verifique se o gerenciador de dispositivos mostra corretamente o dispositivo.
     <img src="images\helloworld\flip5.png" alt="">
     </li>
-    <li>4. No Linux, verifique a saída dos comandos <code>lsusb</code> e <code>dmesg</code></li>
+    <li>4. No Linux, verifique a saída dos comandos <code>lsusb</code> e <code>dmesg.</code></li>
 </ul>
  </p>
  
 
 <h4>2. Conectando com o FLIP</h4>
-<p>Durante a primeira utilização do flip, devemos selecionar o chip com o qual desejamos nos comunicar. No caso da P51USB o chip é o AT89C5131</p>
-<p>Clique no botão <code>Select a Target Device</code></p>
+<p>Durante a primeira utilização do flip, devemos selecionar o chip com o qual desejamos nos comunicar. No caso da P51USB o chip é o AT89C5131.</p>
+<p>Clique no botão <code>Select a Target Device</code>.</p>
 <img src="images\helloworld\flip1.png" alt="">
 
-<p>Selecione o <code>AT89C5131</code> e clique em <code>OK</code></p>
+<p>Selecione o <code>AT89C5131</code> e clique em <code>OK</code>.</p>
 <img src="images\helloworld\flip2.png" alt="">
 
-<p>Agora, clique no botão <code>Select a Communication Medium</code> e selecione a opção <code>USB</code></p>
+<p>Agora, clique no botão <code>Select a Communication Medium</code> e selecione a opção <code>USB</code>.</p>
 <img src="images\helloworld\flip3.png" alt="">
 
-<p>Clique no botão <code>Open</code> e a comunicação será estabelecida com a P51USB</p>
+<p>Clique no botão <code>Open</code> e a comunicação será estabelecida com a P51USB.</p>
 <img src="images\helloworld\flip4.png" alt="">
 
 <p>Se a sua conexão não for efetuada, verifique os seguintes pontos:
 <ul>
-    <li>1. Repita a etapa 1 e verifique se o dispositivo aparece corretamente no gerenciador de dispositivos</li>
-    <li>2. Verifique os cabos. Dê preferência para cabos blindadados pois apresentam maior imunidade a ruído</li>
-    <li>3. Utilize outra porta USB. Algumas portas USB, principalmente em notebooks, apresentam alimentação com muitas flutuações, o que pode causar comportamentos inadequados </li>
+    <li>1. Repita a etapa 1 e verifique se o dispositivo aparece corretamente no gerenciador de dispositivos.</li>
+    <li>2. Verifique os cabos. Dê preferência para cabos blindadados pois apresentam maior imunidade a ruído.</li>
+    <li>3. Utilize outra porta USB. Algumas portas USB, principalmente em notebooks, apresentam alimentação com muitas flutuações, o que pode causar comportamentos inadequados.</li>
 </ul>
 </p>
 
 
 <h4>3. Carregando arquivo hex</h4>
-<p>Para carregar o arquivo hex, clique no botão <code>Load HEX File</code></p>
+<p>Para carregar o arquivo hex, clique no botão <code>Load HEX File</code>.</p>
 <img src="images\helloworld\flip6.png" alt="">
 
-<p>Escolha o arquivo helloworld.hex que criamos anteriormente</p>
+<p>Escolha o arquivo helloworld.hex que criamos anteriormente.</p>
 <img src="images\helloworld\flip7.png" alt="">
 
-<p>Se o arquivo hex estiver de acordo, o programa irá exibir o seu nome, tamanho e checksum</p>
+<p>Se o arquivo hex estiver de acordo, o programa irá exibir o seu nome, tamanho e checksum.</p>
 <img src="images\helloworld\flip8.png" alt="">
 
 <p>Caso o arquivo hex não seja carregado corretamente, verifique:
@@ -226,26 +226,26 @@ A P51USB já possui uma chave para este fim, chamada ISP.</p>
 </p>
 
 <h4>4. Gravando</h4>
-<p>Para gravar o programa, basta certificar-se que todos os checkbox estão habilitados e clicar em <code>Run</code></p>
+<p>Para gravar o programa, basta certificar-se que todos os checkbox estão habilitados e clicar em <code>Run</code>.</p>
 <img src="images\helloworld\flip9.png" alt="">
 
-<p>Se a gravação ocorrer normalmente, os ícones de cada etapa ficarão verde indicando o sucesso</p>
+<p>Se a gravação ocorrer normalmente, os ícones de cada etapa ficarão verde indicando o sucesso.</p>
 <img src="images\helloworld\flip10.png" alt="">
 
 <p>Se algum erro ocorrer:
 <ul>
     <li>1. Verifique todas as conexões entre a placa e o PC.</li>
-    <li>2. Repita individualmente cada uma das etapas nesta ordem: <code>Erase</code>, <code>Blank Check</code>, <code>Program</code>, <code>Verify</code></li>
+    <li>2. Repita individualmente cada uma das etapas nesta ordem: <code>Erase</code>, <code>Blank Check</code>, <code>Program</code>, <code>Verify</code>.</li>
 </ul>
 </p>
 
 <h3>
 <a name="teste" class="anchor" href="#teste"><span class="octicon octicon-link"></span></a>Testando o programa</h3>
-<p>Para testar o programa, desconecte o jumper <code>J_USB</code> e reinicie a placa apertando momentaneamente a chave <code>RST</code></p>
-<p>Cada vez que a chave <code>SW2</code> for pressionada o <code>LED3</code> deverá trocar de estado</p>
+<p>Para testar o programa, desconecte o jumper <code>J_USB</code> e reinicie a placa apertando momentaneamente a chave <code>RST</code>.</p>
+<p>Cada vez que a chave <code>SW2</code> for pressionada o <code>LED3</code> deverá trocar de estado.</p>
 
-<h2>Parabéns! Você completou o exemplo introdutório</h2>
-<p>Agora você já está apto a seguir para os <a href="exemplos.html">demais exemplos</a></p>
+<h2>Parabéns! Você completou o exemplo introdutório!</h2>
+<p>Agora você já está apto a seguir para os <a href="exemplos.html">demais exemplos</a>.</p>
 
 
     </div>
