@@ -1,0 +1,19 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\Mikhail\Sandbox\8051\Projetos P51USB\RTC\rtc.uvproj
+Project File Date:  06/24/2013
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling rtc.a51...
+linking...
+Program Size: data=8.0 xdata=0 code=8822
+"rtc" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling rtc.a51...
+linking...
+Program Size: data=8.0 xdata=0 code=8819
+"rtc" - 0 Error(s), 0 Warning(s).

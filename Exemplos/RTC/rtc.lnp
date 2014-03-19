@@ -1,0 +1,3 @@
+"rtc.obj" 
+TO "rtc" 
+RAMSIZE(256) 

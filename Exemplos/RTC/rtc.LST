@@ -1,0 +1,1186 @@
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02b
+OBJECT MODULE PLACED IN rtc.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE rtc.a51 NOMOD51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;===============================================================================
+                       2     ; Autor: Mikhail A. Koslowski
+                       3     ; Placa P51USB v1sem2013
+                       4     ;===============================================================================
+                       5     ; Configura o RTC utilizando a interface I2C(TWI) do AT89C5131A-M
+                       6     ; Após a configuraçlão, lê periodicamente o valor do RTC.
+                       7     ;===============================================================================
+                       8     ;#include "..\P51USBv1sem2013.h"
+                +1     9     
+                +1    10     
+                +1    11     
+                +1    12     
+                +1    13     
+                +1    14     
+                +1    15     
+                +1    16     
+                +1    17     
+                +1    18     
+                +1    19     
+                +1    20     ;#include <at89c5131.h>
+                +2    21     
+                +2    22     
+                +2    23     
+                +2    24     
+                +2    25     
+                +2    26     
+                +2    27     
+                +2    28     
+                +2    29     
+                +2    30     
+                +2    31     
+                +2    32     
+                +2    33     
+                +2    34     
+                +2    35     
+                +2    36     
+                +2    37     
+                +2    38     
+                +2    39     
+                +2    40     
+                +2    41     
+                +2    42     
+                +2    43     
+                +2    44     
+                +2    45     
+                +2    46     
+                +2    47     
+                +2    48     
+                +2    49     
+  00E0          +2    50     sfr ACC = 0xE0 ;        /* Sfr ( ACC, bit addressable)*/
+  00F0          +2    51     sfr B = 0xF0 ;        /* Sfr ( B,   bit addressable)*/
+  00D0          +2    52     sfr PSW = 0xD0 ;        /* Sfr ( PSW, bit addressable)*/
+  0081          +2    53     sfr SP = 0x81 ;
+  0082          +2    54     sfr DPL = 0x82 ;
+  0083          +2    55     sfr DPH = 0x83 ;
+                +2    56     
+                +2    57     
+                +2    58     
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE     2
+
+                +2    59     
+                +2    60     
+                +2    61     
+  0080          +2    62     sfr P0 = 0x80 ;        /* Sfr ( P0, bit addressable)*/
+                +2    63     
+  0087          +2    64     sbit P0_7 = P0 ^ 7 ;
+  0086          +2    65     sbit P0_6 = P0 ^ 6 ;
+  0085          +2    66     sbit P0_5 = P0 ^ 5 ;
+  0084          +2    67     sbit P0_4 = P0 ^ 4 ;
+  0083          +2    68     sbit P0_3 = P0 ^ 3 ;
+  0082          +2    69     sbit P0_2 = P0 ^ 2 ;
+  0081          +2    70     sbit P0_1 = P0 ^ 1 ;
+  0080          +2    71     sbit P0_0 = P0 ^ 0 ;
+                +2    72     
+  0090          +2    73     sfr P1 = 0x90 ;        /* Sfr ( P1, bit addressable)*/
+                +2    74     
+  0097          +2    75     sbit P1_7 = P1 ^ 7 ;
+  0096          +2    76     sbit P1_6 = P1 ^ 6 ;
+  0095          +2    77     sbit P1_5 = P1 ^ 5 ;
+  0094          +2    78     sbit P1_4 = P1 ^ 4 ;
+  0093          +2    79     sbit P1_3 = P1 ^ 3 ;
+  0092          +2    80     sbit P1_2 = P1 ^ 2 ;
+  0091          +2    81     sbit P1_1 = P1 ^ 1 ;
+  0090          +2    82     sbit P1_0 = P1 ^ 0 ;
+                +2    83     
+  00A0          +2    84     sfr P2 = 0xA0 ;        /* Sfr ( P2, bit addressable)*/
+                +2    85     
+  00A7          +2    86     sbit P2_7 = P2 ^ 7 ;
+  00A6          +2    87     sbit P2_6 = P2 ^ 6 ;
+  00A5          +2    88     sbit P2_5 = P2 ^ 5 ;
+  00A4          +2    89     sbit P2_4 = P2 ^ 4 ;
+  00A3          +2    90     sbit P2_3 = P2 ^ 3 ;
+  00A2          +2    91     sbit P2_2 = P2 ^ 2 ;
+  00A1          +2    92     sbit P2_1 = P2 ^ 1 ;
+  00A0          +2    93     sbit P2_0 = P2 ^ 0 ;
+                +2    94     
+  00B0          +2    95     sfr P3 = 0xB0 ;        /* Sfr ( P3, bit addressable)*/
+                +2    96     
+  00B7          +2    97     sbit P3_7 = P3 ^ 7 ;
+  00B6          +2    98     sbit P3_6 = P3 ^ 6 ;
+  00B5          +2    99     sbit P3_5 = P3 ^ 5 ;
+  00B4          +2   100     sbit P3_4 = P3 ^ 4 ;
+  00B3          +2   101     sbit P3_3 = P3 ^ 3 ;
+  00B2          +2   102     sbit P3_2 = P3 ^ 2 ;
+  00B1          +2   103     sbit P3_1 = P3 ^ 1 ;
+  00B0          +2   104     sbit P3_0 = P3 ^ 0 ;
+                +2   105     
+  00C0          +2   106     sfr P4 = 0xC0 ;        /* Sfr ( P4, bit addressable)*/
+                +2   107     
+  00C1          +2   108     sbit P4_1 = P4 ^ 1 ;
+  00C0          +2   109     sbit P4_0 = P4 ^ 0 ;
+                +2   110     
+                +2   111     
+                +2   112     
+                +2   113     
+  008C          +2   114     sfr TH0 = 0x8C ; 
+  008A          +2   115     sfr TL0 = 0x8A ;
+  008D          +2   116     sfr TH1 = 0x8D ;
+  008B          +2   117     sfr TL1 = 0x8B ;
+  00CD          +2   118     sfr TH2 = 0xCD ;
+  00CC          +2   119     sfr TL2 = 0xCC ;
+  0088          +2   120     sfr TCON = 0x88 ;        /* Sfr ( TCON,  bit addressable)*/
+  0089          +2   121     sfr TMOD = 0x89 ;
+  00C8          +2   122     sfr T2CON = 0xC8 ;        /* Sfr ( T2CON, bit addressable)*/
+  00C9          +2   123     sfr T2MOD = 0xC9 ;
+  00CB          +2   124     sfr RCAP2H = 0xCB ;
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE     3
+
+  00CA          +2   125     sfr RCAP2L = 0xCA ;
+  00A6          +2   126     sfr WDTRST = 0xA6 ;
+  00A7          +2   127     sfr WDTPRG = 0xA7 ;
+                +2   128     
+                +2   129                                 
+  008F          +2   130     sbit TF1 = TCON ^ 7 ;
+  008E          +2   131     sbit TR1 = TCON ^ 6 ;
+  008D          +2   132     sbit TF0 = TCON ^ 5 ;
+  008C          +2   133     sbit TR0 = TCON ^ 4 ;
+  008B          +2   134     sbit IE1_ = TCON ^ 3 ;
+  008A          +2   135     sbit IT1 = TCON ^ 2 ;
+  0089          +2   136     sbit IE0_ = TCON ^ 1 ;
+  0088          +2   137     sbit IT0 = TCON ^ 0 ;
+                +2   138                                 
+  00CF          +2   139     sbit TF2 = T2CON ^ 7 ;
+  00CE          +2   140     sbit EXF2 = T2CON ^ 6 ;
+  00CD          +2   141     sbit RCLK = T2CON ^ 5 ;
+  00CC          +2   142     sbit TCLK = T2CON ^ 4 ;
+  00CB          +2   143     sbit EXEN2 = T2CON ^ 3 ;
+  00CA          +2   144     sbit TR2 = T2CON ^ 2 ;
+  00C9          +2   145     sbit C_T2 = T2CON ^ 1 ;
+  00C8          +2   146     sbit CP_RL2 = T2CON ^ 0 ;
+                +2   147     
+                +2   148     
+                +2   149     
+                +2   150     
+  0098          +2   151     sfr SCON = 0x98 ;
+  0099          +2   152     sfr SBUF = 0x99 ;
+  00B9          +2   153     sfr SADEN = 0xB9 ;
+  00A9          +2   154     sfr SADDR = 0xA9 ;
+                +2   155     
+  009F          +2   156     sbit FE_SM0 = SCON ^ 7 ;
+  009E          +2   157     sbit SM1 = SCON ^ 6 ;
+  009D          +2   158     sbit SM2 = SCON ^ 5 ;
+  009C          +2   159     sbit REN = SCON ^ 4 ;
+  009B          +2   160     sbit TB8 = SCON ^ 3 ;
+  009A          +2   161     sbit RB8 = SCON ^ 2 ;
+  0099          +2   162     sbit TI = SCON ^ 1 ;
+  0098          +2   163     sbit RI = SCON ^ 0 ;
+                +2   164     
+                +2   165     
+                +2   166     
+  009A          +2   167     sfr BRL = 0x9A ;
+  009B          +2   168     sfr BDRCON = 0x9B ;
+                +2   169     
+                +2   170     
+                +2   171     
+  00D8          +2   172     sfr CCON = 0xD8 ;      /* Sfr ( CCON, bit addressable)*/
+  00D9          +2   173     sfr CMOD = 0xD9 ;
+  00E9          +2   174     sfr CL = 0xE9 ;
+  00F9          +2   175     sfr CH = 0xF9 ;
+  00DA          +2   176     sfr CCAPM0 = 0xDA ;
+  00DB          +2   177     sfr CCAPM1 = 0xDB ;
+  00DC          +2   178     sfr CCAPM2 = 0xDC ;
+  00DD          +2   179     sfr CCAPM3 = 0xDD ;
+  00DE          +2   180     sfr CCAPM4 = 0xDE ;
+  00FA          +2   181     sfr CCAP0H = 0xFA ;
+  00FB          +2   182     sfr CCAP1H = 0xFB ;
+  00FC          +2   183     sfr CCAP2H = 0xFC ;
+  00FD          +2   184     sfr CCAP3H = 0xFD ;
+  00FE          +2   185     sfr CCAP4H = 0xFE ;
+  00EA          +2   186     sfr CCAP0L = 0xEA ;
+  00EB          +2   187     sfr CCAP1L = 0xEB ;
+  00EC          +2   188     sfr CCAP2L = 0xEC ;
+  00ED          +2   189     sfr CCAP3L = 0xED ;
+  00EE          +2   190     sfr CCAP4L = 0xEE ;
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE     4
+
+                +2   191     
+                +2   192                                  
+  00DF          +2   193     sbit CF = CCON ^ 7 ;
+  00DE          +2   194     sbit CR = CCON ^ 6 ;
+  00DC          +2   195     sbit CCF4 = CCON ^ 4 ;
+  00DB          +2   196     sbit CCF3 = CCON ^ 3 ;
+  00DA          +2   197     sbit CCF2 = CCON ^ 2 ;
+  00D9          +2   198     sbit CCF1 = CCON ^ 1 ;
+  00D8          +2   199     sbit CCF0 = CCON ^ 0 ;
+                +2   200     
+                +2   201     
+                +2   202     
+                +2   203     
+  00A8          +2   204     sfr IEN0 = 0xA8 ;       /* Sfr ( IEN0,  bit addressable                 */
+  00B1          +2   205     sfr IEN1 = 0xB1 ;
+  00B8          +2   206     sfr IPL0 = 0xB8 ;       /* Sfr ( IPL0, bit addressable          */
+  00B7          +2   207     sfr IPH0 = 0xB7 ;
+  00B2          +2   208     sfr IPL1 = 0xB2 ;
+  00B3          +2   209     sfr IPH1 = 0xB3 ;
+                +2   210     
+                +2   211                                  
+  00AF          +2   212     sbit EA = IEN0 ^ 7 ;
+  00AE          +2   213     sbit EC = IEN0 ^ 6 ;
+  00AD          +2   214     sbit ET2 = IEN0 ^ 5 ;
+  00AC          +2   215     sbit ES = IEN0 ^ 4 ;
+  00AB          +2   216     sbit ET1 = IEN0 ^ 3 ;
+  00AA          +2   217     sbit EX1 = IEN0 ^ 2 ;
+  00A9          +2   218     sbit ET0 = IEN0 ^ 1 ;
+  00A8          +2   219     sbit EX0 = IEN0 ^ 0 ;
+                +2   220                                  
+  00BE          +2   221     sbit PPCL = IPL0 ^ 6 ;
+  00BD          +2   222     sbit PT2L = IPL0 ^ 5 ;
+  00BC          +2   223     sbit PSL = IPL0 ^ 4 ;
+  00BB          +2   224     sbit PTIL = IPL0 ^ 3 ;
+  00BA          +2   225     sbit PXIL = IPL0 ^ 2 ;
+  00B9          +2   226     sbit PT0L = IPL0 ^ 1 ;
+  00B8          +2   227     sbit PX0L = IPL0 ^ 0 ;
+                +2   228     
+                +2   229     
+                +2   230     
+  00A3          +2   231     sfr PLLCON = 0xA3 ;
+  00A4          +2   232     sfr PLLDIV = 0xA4 ;
+                +2   233     
+                +2   234     
+                +2   235     
+  009E          +2   236     sfr KBF = 0x9E ;
+  009D          +2   237     sfr KBE = 0x9D ;
+  009C          +2   238     sfr KBLS = 0x9C ;
+                +2   239     
+                +2   240     
+                +2   241     
+  0093          +2   242     sfr SSCON = 0x93 ;
+  0094          +2   243     sfr SSCS = 0x94 ;
+  0095          +2   244     sfr SSDAT = 0x95 ;
+  0096          +2   245     sfr SSADR = 0x96 ;
+                +2   246     
+                +2   247     
+                +2   248     
+  00C3          +2   249     sfr SPCON = 0xC3 ;
+  00C4          +2   250     sfr SPSTA = 0xC4 ;
+  00C5          +2   251     sfr SPDAT = 0xC5 ;
+                +2   252     
+                +2   253     
+                +2   254     
+  00BC          +2   255     sfr USBCON = 0xBC ;
+  00C6          +2   256     sfr USBADDR = 0xC6 ;
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE     5
+
+  00BD          +2   257     sfr USBINT = 0xBD ;
+  00BE          +2   258     sfr USBIEN = 0xBE ;
+  00C7          +2   259     sfr UEPNUM = 0xC7 ;
+  00D4          +2   260     sfr UEPCONX = 0xD4 ;
+  00CE          +2   261     sfr UEPSTAX = 0xCE ;
+  00D5          +2   262     sfr UEPRST = 0xD5 ;
+  00F8          +2   263     sfr UEPINT = 0xF8 ;         /* Sfr ( UEPINT, bit addressable) */
+  00C2          +2   264     sfr UEPIEN = 0xC2 ;
+  00CF          +2   265     sfr UEPDATX = 0xCF ;
+  00E2          +2   266     sfr UBYCTLX = 0xE2 ;
+  00E3          +2   267     sfr UBYCTHX = 0xE3 ;
+  00D6          +2   268     sfr UDPADDL = 0xD6 ;
+  00D7          +2   269     sfr UDPADDH = 0xD7 ;
+  00BA          +2   270     sfr UFNUML = 0xBA ;
+  00BB          +2   271     sfr UFNUMH = 0xBB ;
+                +2   272                                     
+  00FE          +2   273     sbit EP6INT = UEPINT ^ 6 ;
+  00FD          +2   274     sbit EP5INT = UEPINT ^ 5 ;
+  00FC          +2   275     sbit EP4INT = UEPINT ^ 4 ;
+  00FB          +2   276     sbit EP3INT = UEPINT ^ 3 ;
+  00FA          +2   277     sbit EP2INT = UEPINT ^ 2 ;
+  00F9          +2   278     sbit EP1INT = UEPINT ^ 1 ;
+  00F8          +2   279     sbit EP0INT = UEPINT ^ 0 ;
+                +2   280     
+                +2   281     
+                +2   282     
+  0087          +2   283     sfr PCON = 0x87 ;
+  008E          +2   284     sfr AUXR = 0x8E ;
+  00A2          +2   285     sfr AUXR1 = 0xA2 ;
+  008F          +2   286     sfr CKCON0 = 0x8F ;
+  00AF          +2   287     sfr CKCON1 = 0xAF ;
+  0085          +2   288     sfr CKSEL = 0x85 ;
+  00F1          +2   289     sfr LEDCON = 0xF1 ;
+  00D1          +2   290     sfr FCON = 0xD1 ;
+  00D2          +2   291     sfr EECON = 0xD2 ;
+                +2   292     
+                +2   293     
+                +2   294     
+                +2   295     
+                +1   296     
+                +1   297     
+                +1   298     
+                +1   299     
+                +1   300     
+                +1   301     
+                +1   302     
+                +1   303     
+                +1   304     
+                +1   305     
+                +1   306     
+                +1   307     
+                +1   308     
+                +1   309     
+                +1   310     
+                +1   311     
+                +1   312     
+                +1   313     
+                +1   314     
+                +1   315     
+                +1   316     
+                +1   317     
+                +1   318     
+                +1   319     
+                +1   320     
+                +1   321     
+                +1   322     
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE     6
+
+                +1   323     
+                +1   324     
+                +1   325     
+                +1   326     
+                +1   327     
+                +1   328     
+                +1   329     
+                +1   330     
+                +1   331     
+                +1   332     
+                +1   333     
+                +1   334     
+                +1   335     
+                +1   336     
+                +1   337     
+                +1   338     
+                +1   339     
+                +1   340     
+                +1   341     
+                +1   342     
+                +1   343     
+                +1   344     
+                +1   345     
+                +1   346     
+                +1   347     
+                +1   348     
+                +1   349     
+                +1   350     
+                +1   351     
+                +1   352     
+                +1   353     
+                +1   354     
+                +1   355     
+                +1   356     
+                +1   357     
+                +1   358     
+                +1   359     
+                +1   360     
+                +1   361     
+                +1   362     
+                +1   363     
+                +1   364     
+                +1   365     
+                +1   366     
+                +1   367     
+                +1   368     
+                +1   369     
+                +1   370     
+                +1   371     
+                +1   372     
+                +1   373     
+                +1   374     
+                +1   375     
+                +1   376     
+                +1   377     
+                +1   378     
+                +1   379     
+                +1   380     
+                +1   381     
+                +1   382     
+                +1   383     
+                +1   384     
+                     385     
+                     386     ;#include "i2c_rtc.h"
+                +1   387     
+                +1   388     
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE     7
+
+                +1   389     
+                +1   390     
+                +1   391     
+                +1   392     
+                +1   393     
+                +1   394     
+                +1   395     
+                +1   396     
+                +1   397     
+                +1   398     
+                +1   399     
+                +1   400     
+                     401     
+                     402     
+                     403     ;===============================================================================
+                     404     ; Variáveis
+                     405     ;===============================================================================
+  0040               406     MULT EQU 40h ; multiplicador de base de tempo utilizado em runT0
+                     407     
+                     408     ; Serão utilizados para setar e pegar a data/hora do RTC
+  0050               409     SEC EQU 50h
+  0051               410     MIN EQU 51h
+  0052               411     HOU EQU 52h
+  0053               412     DAY EQU 53h
+  0054               413     DAT EQU 54h
+  0055               414     MON EQU 55h
+  0056               415     YEA EQU 56h
+  0057               416     CTR EQU 57h
+                     417     
+                     418     
+                     419     ; serão utilizados para chamar as funções do i2c
+  0066               420     B2W     EQU 66h         ; bytes to write
+  0067               421     B2R EQU 67h     ; bytes to read
+  0068               422     ADDR EQU 68h    ; internal register address
+  0069               423     DBASE EQU 69h   ; endereço base dos dados a serem escritos.
+                     424     
+                     425     
+                     426     ;===============================================================================
+                     427     ; bit endereçáveis
+                     428     ;===============================================================================
+                     429     ; Uma vez que o HW I2C executa "paralelo" ao 51 e o SW é totalmente composto de interrupçõe
+                             s
+                     430     ; devemos evitar que uma comunicação se inicie antes de outra terminar
+  0000               431     I2C_BUSY EQU 00h ; 0 - I2C livre, 1 - I2C ocupada
+                     432     
+                     433     ;===============================================================================
+                     434     ; Vetor de interrupção (0x0000 até 0x007A)
+                     435     ;===============================================================================
+2000                 436             ORG 0x2000 ; reset
+2000 02207B          437             LJMP init
+                     438     
+2023                 439             ORG 0x2023 ; serial     (Place-holder)
+2023 32              440             RETI
+                     441             
+2043                 442             ORG     0x2043 ; TWI (I2C)                                                         
+                                                          
+2043 022112          443             LJMP i2c_int
+                     444     ;===============================================================================
+                     445     ; Código (0x207B até 0x7FFF)
+                     446     ;===============================================================================
+207B                 447             ORG 0x207B
+                     448     ;------------------------------------------------------------------------------
+                     449     ; 1 - Inicializar o HW.
+                     450     ;------------------------------------------------------------------------------
+207B                 451     init:
+                     452     ;       1.0 - Desabilita as interrupções
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE     8
+
+207B 75A800          453             MOV IEN0, #0x00
+207E 75B100          454             MOV IEN1, #0x00
+                     455     
+                     456     ;       1.1 - Configurar o Timer 0
+2081 758901          457             MOV TMOD, #0x01 ; T0 no modo timer 16bits
+                     458     
+                     459     ;       1.2 - Configurar o I2C (TWI)
+2084 D2C0            460             SETB P4.0
+2086 D2C1            461             SETB P4.1 ; Coloca os latches em high-Z
+                     462     
+                     463             ; CR2 = 0, CR1 = 0, CR0 = 1, divisor XX, clock 24MHz, I2C = XXXk
+                     464     
+2088 759341          465             MOV SSCON, #01000001b
+                     466                                ;||||||||_ CR0
+                     467                                ;|||||||__ CR1
+                     468                                ;||||||___ AA (vai ser usado apenas na recepção)
+                     469                                ;|||||____ SI  flag de int
+                     470                                ;||||_____ STO to send a stop
+                     471                                ;|||______ STA to send a start
+                     472                                ;||_______ SSIE Enable TWI
+                     473                                ;|________ CR2
+                     474     
+                     475     ;       1-3 Habilita as interrupções
+208B 75B202          476             MOV IPL1, #0x02
+208E 75B302          477             MOV IPH1, #0x02
+2091 75B102          478             MOV IEN1, #0x02 ; habilita a int do i2c com prioridade alta.
+                     479     
+2094 D2AC            480             SETB ES ; habilita a int da serial (para o flashmon!)
+                     481     
+2096 D2AF            482             SETB EA ; liga as ints habilitadas
+                     483             
+                     484     ;------------------------------------------------------------------------------
+                     485     ; Configurar o RTC com data e hora definidos
+                     486     ;------------------------------------------------------------------------------
+                     487     ;       2.1 - SEG, 24/06/2013 - 22:27:00
+2098 755000          488             MOV SEC, #0x00 ; BCD segundos, deve ser iniciado com valor PAR para o relogio funci
+                             onar.
+209B 755127          489             MOV MIN, #0x27 ; BCD minutos
+209E 755222          490             MOV HOU, #0x22 ; BCD hora, se o bit mais alto for 1, o relógio é 12h, senão BCD 24h
+20A1 755302          491             MOV DAY, #0x02 ; Dia da semana
+20A4 755424          492             MOV DAT, #0x24 ; Dia
+20A7 755506          493             MOV MON, #0x06 ; Mês
+20AA 755613          494             MOV YEA, #0x13 ; Ano
+20AD 755700          495             MOV CTR, #0x00 ; SQW desativada em nível 0
+                     496     
+                     497             ; o resto não será setado.
+                     498     
+                     499             ;LCALL RTC_SET_TIME
+                     500              
+20B0                 501     main:
+                     502     ;------------------------------------------------------------------------------
+                     503     ;Ler o RTC periodicamente
+                     504     ;------------------------------------------------------------------------------
+20B0 7F05            505             MOV R7, #0x05
+20B2                 506     reload:
+20B2 B2B6            507             CPL P3.6                        ; toggle no led
+20B4 7E04            508             MOV R6, #0x04           ; 4x
+20B6                 509     again:
+20B6 7540FA          510             MOV MULT, #0xFA         ; 250x
+20B9 1220C7          511             LCALL runT0                     ; 0.5ms
+20BC DEF8            512             DJNZ R6, again          ; = 1s
+                     513     
+20BE DFF2            514             DJNZ R7, reload         ; 5s
+                     515     
+20C0 1220F6          516             LCALL   RTC_GET_TIME
+                     517     
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE     9
+
+20C3 80EB            518             JMP main
+                     519     ;------------------------------------------------------------------------------
+                     520     ; Nunca deverá chegar aqui!
+20C5 80B4            521              JMP init
+                     522     ;------------------------------------------------------------------------------
+                     523     
+                     524     ;******************************************************************************
+                     525     ; Funções do Timer0
+                     526     ;******************************************************************************
+                     527     ;------------------------------------------------------------------------------
+                     528     ; Nome: runT0
+                     529     ; Descrição: Gera atraso de tempo utilizando Timer0
+                     530     ; Parâmetros: MULT
+                     531     ; Retorna:
+                     532     ; Destrói: MULT
+                     533     ;------------------------------------------------------------------------------
+20C7                 534     runT0:
+20C7 758CFC          535         MOV TH0,#0FCh       ;fclk CPU = 24MHz
+20CA 758A17          536         MOV TL0,#17h        ; ... base de tempo de 0,5ms
+20CD D28C            537         SETB TR0            ;dispara timer
+                     538     
+20CF 308DFD          539         JNB TF0,$           ;preso CLR TR0 ;stop timer
+20D2 C28C            540         CLR TR0             ;para o timer 0
+20D4 C28D            541         CLR TF0             ;zera flag overflow
+20D6 D540EE          542         DJNZ MULT,runT0
+20D9 22              543         RET   
+                     544     ;******************************************************************************
+                     545     ; Funções do I2C
+                     546     ;******************************************************************************
+                     547     ;------------------------------------------------------------------------------
+                     548     ; Nome: RTC_SET_TIME
+                     549     ; Descrição: escreve data e hora no RTC
+                     550     ; Parâmetros: SEC, MIN, HOU
+                     551     ; Retorna:
+                     552     ; Destrói: A
+                     553     ;------------------------------------------------------------------------------
+20DA                 554     RTC_SET_TIME:
+20DA 756800          555             MOV ADDR, #0x00         ; endereço do reg interno
+20DD 756609          556             MOV B2W, #(8+1)         ; a quantidade de bytes que deverão ser enviados + 1.
+20E0 756701          557             MOV B2R, #(0+1)         ; a quantidade de bytes que serão lidos + 1.
+20E3 756950          558             MOV DBASE, #SEC         ; endereço base dos dados
+                     559     
+                     560             ; gera o start, daqui pra frente é tudo na interrupção.
+20E6 E593            561             MOV A, SSCON
+20E8 4420            562             ORL A, #0x20
+20EA F593            563             MOV SSCON, A
+                     564     
+                     565             ; devemos aguardar um tempo "suficiente" para ser gerada a interrupção de START
+20EC 75400A          566             MOV MULT, #0xA ; 5ms
+20EF 1220C7          567             LCALL runT0
+                     568     
+20F2 2000FD          569             JB I2C_BUSY, $ ; enquanto o i2c estiver ocupado, fique aqui!
+                     570     
+20F5 22              571             RET
+                     572     ;------------------------------------------------------------------------------
+                     573     ; Nome: RTC_GET_TIME
+                     574     ; Descrição: lê data e hora do RTC
+                     575     ; Parâmetros:
+                     576     ; Retorna: SEC, MIN, HOU
+                     577     ; Destrói: A
+                     578     ;------------------------------------------------------------------------------
+20F6                 579     RTC_GET_TIME:
+20F6 756800          580             MOV ADDR, #0x00         ; endereço do reg interno
+20F9 756601          581             MOV B2W, #(0+1)         ; a quantidade de bytes que deverão ser enviados + 1.
+20FC 756704          582             MOV B2R, #(3+1)         ; a quantidade de bytes que serão lidos + 1.
+20FF 756950          583             MOV DBASE, #SEC         ; endereço base dos dados (buffer)
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE    10
+
+                     584     
+                     585             ; gera o start, daqui pra frente é tudo na interrupção.
+2102 E593            586             MOV A, SSCON
+2104 4420            587             ORL A, #0x20
+2106 F593            588             MOV SSCON, A
+                     589     
+                     590             ; devemos aguardar um tempo "suficiente" para ser gerada a interrupção de START
+2108 75400A          591             MOV MULT, #0xA
+210B 1220C7          592             LCALL runT0
+                     593     
+210E 2000FD          594             JB I2C_BUSY, $ ; enquanto o i2c estiver ocupado, fique aqui!
+                     595     
+2111 22              596             RET
+                     597     ;------------------------------------------------------------------------------
+                     598     ; Nome: i2c_int
+                     599     ; Descrição: Rotina de atendimento da interrupção do TWI (I2C)
+                     600     ; Parâmetros:
+                     601     ; Retorna:
+                     602     ; Destrói: A, DPH, DPL
+                     603     ;------------------------------------------------------------------------------
+2112                 604     i2c_int:
+2112 B2B7            605             CPL P3.7 ; "pisca" um led na int somente para debug.
+                     606             
+2114 E594            607             MOV A, SSCS ; pega o valor do Status    (b4 b3 b2 b1 b0 00 00 00 )
+2116 03              608             RR A            ; faz 1 shift (divide por 2)(00 b4 b3 b2 b1 b0 00 00 )
+                     609     
+2117 12219B          610             LCALL decode ; faz uma "mágica" no PC, que cai exatamente no local correto abaixo!
+                     611                                                                      
+                     612             ; "mágica":
+                     613             ; cada LJMP tem 3 bytes, NOP 1 byte.
+                     614             ; LJMP + NOP = 4 bytes.
+                     615             ; os códigos de retorno do SSCS são multiplos de 8, dividindo por 2 ficam multiplos
+                              de 4
+                     616             ; quando "chamamos" decode com LCALL, o PC de retorno fica salvo na pilha.
+                     617             ; capturo o PC de retorno da pilha e somo esse multiplo.
+                     618             ; quando acontecer o RET, estaremos no LJMP exato para atender a int!
+                     619             
+                     620             ; Erro no Bus (00h)
+211A 0221B0          621             LJMP ERRO ; 0
+211D 00              622             NOP
+                     623             ; start (8h >> 1 = 4)
+211E 0221BB          624             LJMP START
+2121 00              625             NOP     
+                     626             ; re-start (10h >> 1 = 8)
+2122 0221C9          627             LJMP RESTART
+2125 00              628             NOP
+                     629             ; W ADDR ack (18h >> 1 = 12)
+2126 0221D5          630             LJMP W_ADDR_ACK
+2129 00              631             NOP
+                     632             ; W ADDR Nack (20h >> 1 = 16)
+212A 0221E1          633             LJMP W_ADDR_NACK
+212D 00              634             NOP
+                     635             ; Data ack W (28h >> 1 = 20)
+212E 0221EC          636             LJMP W_DATA_ACK
+2131 00              637             NOP
+                     638             ; Data Nack W (30h >> 1 = 24)
+2132 022219          639             LJMP W_DATA_NACK
+2135 00              640             NOP
+                     641             ; Arb-Lost (38h >> 1  = 28)
+2136 022226          642             LJMP ARB_LOST
+2139 00              643             NOP
+                     644             ; R ADDR ack (40h >> 1 = 32)
+213A 022229          645             LJMP R_ADDR_ACK
+213D 00              646             NOP
+                     647             ; R ADDR Nack (48h >> 1 = 36)
+213E 02223B          648             LJMP R_ADDR_NACK
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE    11
+
+2141 00              649             NOP
+                     650             ; Data ack R (50h >> 1 = 40)
+2142 022248          651             LJMP R_DATA_ACK
+2145 00              652             NOP
+                     653             ; Data Nack R (58h >> 1 = 44)
+2146 022260          654             LJMP R_DATA_NACK
+2149 00              655             NOP
+                     656     
+                     657             ; slave receive não implementado
+214A 02219A          658             LJMP not_impl
+214D 00              659             NOP ; 60
+214E 02219A          660             LJMP not_impl
+2151 00              661             NOP ; 68
+2152 02219A          662             LJMP not_impl
+2155 00              663             NOP ; 70
+2156 02219A          664             LJMP not_impl
+2159 00              665             NOP ; 78
+215A 02219A          666             LJMP not_impl
+215D 00              667             NOP ; 80
+215E 02219A          668             LJMP not_impl
+2161 00              669             NOP ; 88
+2162 02219A          670             LJMP not_impl
+2165 00              671             NOP ; 90
+2166 02219A          672             LJMP not_impl
+2169 00              673             NOP ; 98
+216A 02219A          674             LJMP not_impl
+216D 00              675             NOP ; A0
+                     676             ;slave transmit não implementado
+216E 02219A          677             LJMP not_impl
+2171 00              678             NOP ; A8
+2172 02219A          679             LJMP not_impl
+2175 00              680             NOP ; B0
+2176 02219A          681             LJMP not_impl
+2179 00              682             NOP ; B8
+217A 02219A          683             LJMP not_impl
+217D 00              684             NOP ; C0
+217E 02219A          685             LJMP not_impl
+2181 00              686             NOP ; C8
+                     687     
+                     688             ; códigos não implementados
+2182 02219A          689             LJMP not_impl
+2185 00              690             NOP ; D0
+2186 02219A          691             LJMP not_impl
+2189 00              692             NOP ; D8
+218A 02219A          693             LJMP not_impl
+218D 00              694             NOP ; E0
+218E 02219A          695             LJMP not_impl
+2191 00              696             NOP ; E8
+2192 02219A          697             LJMP not_impl
+2195 00              698             NOP ; F0
+                     699     
+                     700             ; nada a ser feito (apenas "cai" no fim da int)
+2196 02219A          701             LJMP end_i2c_int
+2199 00              702             NOP ; F8
+                     703     ;------------------------------------------------------------------------------
+219A                 704     not_impl:
+219A                 705     end_i2c_int:
+219A 32              706             RETI
+                     707     ;------------------------------------------------------------------------------
+219B                 708     decode:
+219B D083            709             POP DPH
+219D D082            710             POP DPL                 ; captura o PC "de retorno"
+219F 2582            711             ADD A, DPL
+21A1 F582            712             MOV DPL, A              ; soma nele o valor de A (A = SSCS/2)
+21A3 5006            713             JNC termina
+21A5 7401            714             MOV A, #1
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE    12
+
+21A7 2583            715             ADD A, DPH              ; se tiver carry, aumenta a parte alta.
+21A9 F583            716             MOV DPH, A
+21AB                 717     termina:
+21AB C082            718             PUSH DPL                ; põem o novo pc na pilha 
+21AD C083            719             PUSH DPH                ; e ...
+21AF 22              720             RET                             ; pula pra ele!
+                     721             
+                     722     ;------------------------------------------------------------------------------
+                     723     ; Aqui se iniciam as "verdadeiras" ISRs
+                     724     ; A implementação dessas ISRs seguiu os modelos propostos no datasheet
+                     725     ; Porém não foram implementadas todas as possibilidades para todos os códigos
+                     726     ; foram implementadas apenas as necessárias para garantir um fluxo de dados
+                     727     ; de escrita e leitura como master, contemplando inclusive as possíveis falhas
+                     728     ;------------------------------------------------------------------------------
+21B0                 729     ERRO:
+21B0 E593            730             MOV A, SSCON
+21B2 5410            731             ANL A, #0x10 ; gera um stop
+21B4 F593            732             MOV SSCON, A
+21B6 C200            733             CLR     I2C_BUSY ; zera o flag de ocupado
+21B8 02219A          734             LJMP end_i2c_int
+                     735     ;------------------------------------------------------------------------------
+21BB                 736     START:
+                     737     ; um start SEMPRE vai ocasionar uma escrita
+                     738     ; pois para ler, preciso primeiro escrever de onde vou ler!
+                     739     ; SSDAT = SLA + W
+                     740     ; STO = 0 e SI = 0
+21BB D200            741             SETB I2C_BUSY           ; seta o flag de ocupado
+21BD 7595D0          742             MOV SSDAT, #0xD0
+21C0 E593            743             MOV A, SSCON
+21C2 54E7            744             ANL A, #~(0x10 | 0x08)  ; zera os bits STO e SI
+21C4 F593            745             MOV SSCON, A
+21C6 02219A          746             LJMP end_i2c_int
+                     747     ;------------------------------------------------------------------------------
+21C9                 748     RESTART:
+                     749     ; o Restart será utilizado apenas para leituras,
+                     750     ; onde há a necessidade de fazer um start->escrita->restart->leitura->stop
+                     751     ; SSDAT = SLA + R
+                     752     ; STO = 0 e SI = 0
+21C9 7595D1          753             MOV SSDAT, #0xD1
+21CC E593            754             MOV A, SSCON
+21CE 54E7            755             ANL A, #~(0x10 | 0x08)  ; zera os bits STO e SI
+21D0 F593            756             MOV SSCON, A
+21D2 02219A          757             LJMP end_i2c_int
+                     758     ;------------------------------------------------------------------------------
+21D5                 759     W_ADDR_ACK:
+                     760     ; após um W_addr_ack temos que escrever o registrador interno!
+                     761     ; SSDAT = ADDR
+                     762     ; STA = 0, STO = 0, SI = 0
+21D5 856895          763             MOV SSDAT, ADDR
+21D8 E593            764             MOV A, SSCON
+21DA 54C7            765             ANL A, #~(0x20 | 0x10 | 0x08)   ; zera os bits STA, STO e SI
+21DC F593            766             MOV SSCON, A
+21DE 02219A          767             LJMP end_i2c_int
+                     768     ;------------------------------------------------------------------------------
+21E1                 769     W_ADDR_NACK:
+                     770     ; em caso de nack, ou o end ta errado ou o slave não está conectado.
+                     771     ; não vamos fazer retry, encerramos a comunicação.
+                     772     ; STA = 0, SI = 0
+                     773     ; STO = 1
+21E1 E593            774             MOV A, SSCON
+21E3 54D7            775             ANL A, #~(0x20 | 0x08)  ; zera os bits STA e SI
+21E5 4410            776             ORL A, #0x10                                    ; seta STO
+21E7 F593            777             MOV SSCON, A
+21E9 02219A          778             LJMP end_i2c_int
+                     779     ;------------------------------------------------------------------------------
+21EC                 780     W_DATA_ACK:
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE    13
+
+                     781     ; após o primeiro data ack (registrador interno) temos 2 opções:
+                     782     ; 1 - escrever um novo byte
+                     783     ; 2 - gerar um restart para leitura
+21EC D5661B          784             DJNZ B2W, wda1          ; enquanto tiver bytes para escrever, pula para wda1
+                     785     
+                     786             ; se não tiver mais bytes para escrever, começe a ler
+21EF D5670D          787             DJNZ B2R, wda2          ;se tiver algum byte pra ler, pula para wd
+21F2 E593            788             MOV A, SSCON 
+21F4 54D7            789             ANL A, #~(0x20 | 0x08)  ; senão..
+21F6 4410            790             ORL A, #0x10                    ; gera um STOP
+21F8 F593            791             MOV SSCON, A
+21FA C200            792             CLR     I2C_BUSY ; zera o flag de ocupado
+21FC 02219A          793             LJMP end_i2c_int
+21FF                 794     wda2:
+21FF E593            795             MOV A, SSCON 
+2201 54E7            796             ANL A, #~(0x10 | 0x08)
+2203 4420            797             ORL A, #0x20                    ; ..gera um restart!
+2205 F593            798             MOV SSCON, A
+2207 02219A          799             LJMP end_i2c_int
+220A                 800     wda1:
+220A A869            801             MOV R0, DBASE
+220C 8695            802             MOV SSDAT, @R0  ; ...escreve o proximo!
+220E E593            803             MOV A, SSCON
+2210 54C7            804             ANL A, #~(0x20 | 0x10 | 0x08) ; zera STA, STO e SI
+2212 F593            805             MOV SSCON, A
+2214 0569            806             INC DBASE               ; incrementa o indice do buffer
+2216 02219A          807             LJMP end_i2c_int
+                     808     ;------------------------------------------------------------------------------
+2219                 809     W_DATA_NACK:
+                     810     ; após um data_nack, podemos repetir ou encerrar
+                     811     ; vamos encerrar
+2219 E593            812             MOV A, SSCON 
+221B 54D7            813             ANL A, #~(0x20 | 0x08)
+221D 4410            814             ORL A, #0x10                    ; gera um STOP
+221F F593            815             MOV SSCON, A
+2221 C200            816             CLR     I2C_BUSY ; zera o flag de ocupado
+2223 02219A          817             LJMP end_i2c_int        
+                     818     ;------------------------------------------------------------------------------
+2226                 819     ARB_LOST:
+                     820     ; após um arb-lost podemos acabar sendo endereçados como slave
+                     821     ; o arb-lost costuma ocorrer em 2 situações:
+                     822     ; 1 - problemas físicos no bus
+                     823     ; 2 - ambiente multi-master (não é o caso)
+                     824     ; em ambos os casos, não vamos fazer nada!
+                     825     ; pois não estamos implementando a comunicação em modo slave.
+2226 02219A          826             LJMP end_i2c_int        
+                     827     ;------------------------------------------------------------------------------
+2229                 828     R_ADDR_ACK:
+                     829     ; depois de um R ADDR ACK, recebemos os bytes!
+2229 E593            830             MOV A, SSCON
+222B 54C7            831             ANL A, #~(0x20 | 0x10 | 0x08) ; receberemos o proximo byte
+                     832             
+222D D56704          833             DJNZ B2R, raa1                                    ; decrementa a quantidade de byte
+                             s a receber!
+                     834             ; se der 0, é o ultimo byte a ser recebido
+2230 54FB            835             ANL A, #~0x04   ; retorne NACK
+2232 8002            836             SJMP raa2
+                     837             ; se não...
+2234                 838     raa1:
+2234 4404            839             ORL A, #0x04    ; retorne ACK para o slave!
+2236                 840     raa2:   
+2236 F593            841             MOV SSCON, A
+2238 02219A          842             LJMP end_i2c_int        
+                     843     ;------------------------------------------------------------------------------
+223B                 844     R_ADDR_NACK:
+                     845     ; idem ao w_addr_nack
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE    14
+
+223B E593            846             MOV A, SSCON 
+223D 54D7            847             ANL A, #~(0x20 | 0x08)
+223F 4410            848             ORL A, #0x10                    ; gera um STOP
+2241 F593            849             MOV SSCON, A
+2243 C200            850             CLR     I2C_BUSY ; zera o flag de ocupado
+2245 02219A          851             LJMP end_i2c_int        
+                     852     ;------------------------------------------------------------------------------
+2248                 853     R_DATA_ACK:
+                     854     ; se tiver mais bytes pra ler, de um ack, senão de um nack
+                     855     
+2248 A869            856             MOV R0, DBASE
+224A A695            857             MOV     @R0, SSDAT ; le o byte que já chegou
+                     858     
+224C E593            859             MOV A, SSCON
+224E 54C7            860             ANL A, #~(0x20 | 0x10 | 0x08) ; receberemos o proximo byte
+                     861             
+2250 D56704          862             DJNZ B2R, rda1                                    ; decrementa a quantidade de byte
+                             s a receber!
+                     863             ; se der 0, é o ultimo byte a ser recebido
+2253 54FB            864             ANL A, #~0x04   ; retorne NACK
+2255 8002            865             SJMP rda2
+                     866             ; se não...
+2257                 867     rda1:
+2257 4404            868             ORL A, #0x04    ; retorne ACK para o slave!
+2259                 869     rda2:   
+2259 F593            870             MOV SSCON, A
+225B 0569            871             INC DBASE ; incrementa o buffer
+225D 02219A          872             LJMP end_i2c_int
+                     873                        
+2260                 874     R_DATA_NACK:
+                     875     ; salva o ultimo byte e termina
+                     876     
+2260 A869            877             MOV R0, DBASE
+2262 A695            878             MOV     @R0, SSDAT ; le o byte que já chegou
+                     879     
+2264 E593            880             MOV A, SSCON 
+2266 54D7            881             ANL A, #~(0x20 | 0x08)
+2268 4410            882             ORL A, #0x10                    ; gera um STOP
+226A F593            883             MOV SSCON, A
+                     884     
+226C 0569            885             INC DBASE ; inc o buffer
+                     886     
+226E C200            887             CLR     I2C_BUSY ; zera o flag de ocupado
+2270 02219A          888             LJMP end_i2c_int        
+                     889     ;------------------------------------------------------------------------------
+                     890     ; Nunca deverá chegar aqui.
+                     891     END
+                             
+                             ; Cabeçalho padrão para comentário de funções
+                             ;------------------------------------------------------------------------------
+                             ; Nome:
+                             ; Descrição:
+                             ; Parâmetros:
+                             ; Retorna:
+                             ; Destrói:
+                             ;------------------------------------------------------------------------------
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE    15
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+ADDR . . . . . . .  N NUMB   0068H   A   
+AGAIN. . . . . . .  C ADDR   20B6H   A   
+ARB_LOST . . . . .  C ADDR   2226H   A   
+AUXR . . . . . . .  D ADDR   008EH   A   
+AUXR1. . . . . . .  D ADDR   00A2H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+B2R. . . . . . . .  N NUMB   0067H   A   
+B2W. . . . . . . .  N NUMB   0066H   A   
+BDRCON . . . . . .  D ADDR   009BH   A   
+BRL. . . . . . . .  D ADDR   009AH   A   
+CCAP0H . . . . . .  D ADDR   00FAH   A   
+CCAP0L . . . . . .  D ADDR   00EAH   A   
+CCAP1H . . . . . .  D ADDR   00FBH   A   
+CCAP1L . . . . . .  D ADDR   00EBH   A   
+CCAP2H . . . . . .  D ADDR   00FCH   A   
+CCAP2L . . . . . .  D ADDR   00ECH   A   
+CCAP3H . . . . . .  D ADDR   00FDH   A   
+CCAP3L . . . . . .  D ADDR   00EDH   A   
+CCAP4H . . . . . .  D ADDR   00FEH   A   
+CCAP4L . . . . . .  D ADDR   00EEH   A   
+CCAPM0 . . . . . .  D ADDR   00DAH   A   
+CCAPM1 . . . . . .  D ADDR   00DBH   A   
+CCAPM2 . . . . . .  D ADDR   00DCH   A   
+CCAPM3 . . . . . .  D ADDR   00DDH   A   
+CCAPM4 . . . . . .  D ADDR   00DEH   A   
+CCF0 . . . . . . .  B ADDR   00D8H.0 A   
+CCF1 . . . . . . .  B ADDR   00D8H.1 A   
+CCF2 . . . . . . .  B ADDR   00D8H.2 A   
+CCF3 . . . . . . .  B ADDR   00D8H.3 A   
+CCF4 . . . . . . .  B ADDR   00D8H.4 A   
+CCON . . . . . . .  D ADDR   00D8H   A   
+CF . . . . . . . .  B ADDR   00D8H.7 A   
+CH . . . . . . . .  D ADDR   00F9H   A   
+CKCON0 . . . . . .  D ADDR   008FH   A   
+CKCON1 . . . . . .  D ADDR   00AFH   A   
+CKSEL. . . . . . .  D ADDR   0085H   A   
+CL . . . . . . . .  D ADDR   00E9H   A   
+CMOD . . . . . . .  D ADDR   00D9H   A   
+CP_RL2 . . . . . .  B ADDR   00C8H.0 A   
+CR . . . . . . . .  B ADDR   00D8H.6 A   
+CTR. . . . . . . .  N NUMB   0057H   A   
+C_T2 . . . . . . .  B ADDR   00C8H.1 A   
+DAT. . . . . . . .  N NUMB   0054H   A   
+DAY. . . . . . . .  N NUMB   0053H   A   
+DBASE. . . . . . .  N NUMB   0069H   A   
+DECODE . . . . . .  C ADDR   219BH   A   
+DPH. . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . .  D ADDR   0082H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+EC . . . . . . . .  B ADDR   00A8H.6 A   
+EECON. . . . . . .  D ADDR   00D2H   A   
+END_I2C_INT. . . .  C ADDR   219AH   A   
+EP0INT . . . . . .  B ADDR   00F8H.0 A   
+EP1INT . . . . . .  B ADDR   00F8H.1 A   
+EP2INT . . . . . .  B ADDR   00F8H.2 A   
+EP3INT . . . . . .  B ADDR   00F8H.3 A   
+EP4INT . . . . . .  B ADDR   00F8H.4 A   
+EP5INT . . . . . .  B ADDR   00F8H.5 A   
+EP6INT . . . . . .  B ADDR   00F8H.6 A   
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE    16
+
+ERRO . . . . . . .  C ADDR   21B0H   A   
+ES . . . . . . . .  B ADDR   00A8H.4 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . .  B ADDR   00A8H.3 A   
+ET2. . . . . . . .  B ADDR   00A8H.5 A   
+EX0. . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . .  B ADDR   00A8H.2 A   
+EXEN2. . . . . . .  B ADDR   00C8H.3 A   
+EXF2 . . . . . . .  B ADDR   00C8H.6 A   
+FCON . . . . . . .  D ADDR   00D1H   A   
+FE_SM0 . . . . . .  B ADDR   0098H.7 A   
+HOU. . . . . . . .  N NUMB   0052H   A   
+I2C_BUSY . . . . .  N NUMB   0000H   A   
+I2C_INT. . . . . .  C ADDR   2112H   A   
+IE0_ . . . . . . .  B ADDR   0088H.1 A   
+IE1_ . . . . . . .  B ADDR   0088H.3 A   
+IEN0 . . . . . . .  D ADDR   00A8H   A   
+IEN1 . . . . . . .  D ADDR   00B1H   A   
+INIT . . . . . . .  C ADDR   207BH   A   
+IPH0 . . . . . . .  D ADDR   00B7H   A   
+IPH1 . . . . . . .  D ADDR   00B3H   A   
+IPL0 . . . . . . .  D ADDR   00B8H   A   
+IPL1 . . . . . . .  D ADDR   00B2H   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+KBE. . . . . . . .  D ADDR   009DH   A   
+KBF. . . . . . . .  D ADDR   009EH   A   
+KBLS . . . . . . .  D ADDR   009CH   A   
+LEDCON . . . . . .  D ADDR   00F1H   A   
+MAIN . . . . . . .  C ADDR   20B0H   A   
+MIN. . . . . . . .  N NUMB   0051H   A   
+MON. . . . . . . .  N NUMB   0055H   A   
+MULT . . . . . . .  N NUMB   0040H   A   
+NOT_IMPL . . . . .  C ADDR   219AH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P0_0 . . . . . . .  B ADDR   0080H.0 A   
+P0_1 . . . . . . .  B ADDR   0080H.1 A   
+P0_2 . . . . . . .  B ADDR   0080H.2 A   
+P0_3 . . . . . . .  B ADDR   0080H.3 A   
+P0_4 . . . . . . .  B ADDR   0080H.4 A   
+P0_5 . . . . . . .  B ADDR   0080H.5 A   
+P0_6 . . . . . . .  B ADDR   0080H.6 A   
+P0_7 . . . . . . .  B ADDR   0080H.7 A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P1_0 . . . . . . .  B ADDR   0090H.0 A   
+P1_1 . . . . . . .  B ADDR   0090H.1 A   
+P1_2 . . . . . . .  B ADDR   0090H.2 A   
+P1_3 . . . . . . .  B ADDR   0090H.3 A   
+P1_4 . . . . . . .  B ADDR   0090H.4 A   
+P1_5 . . . . . . .  B ADDR   0090H.5 A   
+P1_6 . . . . . . .  B ADDR   0090H.6 A   
+P1_7 . . . . . . .  B ADDR   0090H.7 A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P2_0 . . . . . . .  B ADDR   00A0H.0 A   
+P2_1 . . . . . . .  B ADDR   00A0H.1 A   
+P2_2 . . . . . . .  B ADDR   00A0H.2 A   
+P2_3 . . . . . . .  B ADDR   00A0H.3 A   
+P2_4 . . . . . . .  B ADDR   00A0H.4 A   
+P2_5 . . . . . . .  B ADDR   00A0H.5 A   
+P2_6 . . . . . . .  B ADDR   00A0H.6 A   
+P2_7 . . . . . . .  B ADDR   00A0H.7 A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+P3_0 . . . . . . .  B ADDR   00B0H.0 A   
+P3_1 . . . . . . .  B ADDR   00B0H.1 A   
+P3_2 . . . . . . .  B ADDR   00B0H.2 A   
+P3_3 . . . . . . .  B ADDR   00B0H.3 A   
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE    17
+
+P3_4 . . . . . . .  B ADDR   00B0H.4 A   
+P3_5 . . . . . . .  B ADDR   00B0H.5 A   
+P3_6 . . . . . . .  B ADDR   00B0H.6 A   
+P3_7 . . . . . . .  B ADDR   00B0H.7 A   
+P4 . . . . . . . .  D ADDR   00C0H   A   
+P4_0 . . . . . . .  B ADDR   00C0H.0 A   
+P4_1 . . . . . . .  B ADDR   00C0H.1 A   
+PCON . . . . . . .  D ADDR   0087H   A   
+PLLCON . . . . . .  D ADDR   00A3H   A   
+PLLDIV . . . . . .  D ADDR   00A4H   A   
+PPCL . . . . . . .  B ADDR   00B8H.6 A   
+PSL. . . . . . . .  B ADDR   00B8H.4 A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+PT0L . . . . . . .  B ADDR   00B8H.1 A   
+PT2L . . . . . . .  B ADDR   00B8H.5 A   
+PTIL . . . . . . .  B ADDR   00B8H.3 A   
+PX0L . . . . . . .  B ADDR   00B8H.0 A   
+PXIL . . . . . . .  B ADDR   00B8H.2 A   
+RAA1 . . . . . . .  C ADDR   2234H   A   
+RAA2 . . . . . . .  C ADDR   2236H   A   
+RB8. . . . . . . .  B ADDR   0098H.2 A   
+RCAP2H . . . . . .  D ADDR   00CBH   A   
+RCAP2L . . . . . .  D ADDR   00CAH   A   
+RCLK . . . . . . .  B ADDR   00C8H.5 A   
+RDA1 . . . . . . .  C ADDR   2257H   A   
+RDA2 . . . . . . .  C ADDR   2259H   A   
+RELOAD . . . . . .  C ADDR   20B2H   A   
+REN. . . . . . . .  B ADDR   0098H.4 A   
+RESTART. . . . . .  C ADDR   21C9H   A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+RTC_GET_TIME . . .  C ADDR   20F6H   A   
+RTC_SET_TIME . . .  C ADDR   20DAH   A   
+RUNT0. . . . . . .  C ADDR   20C7H   A   
+R_ADDR_ACK . . . .  C ADDR   2229H   A   
+R_ADDR_NACK. . . .  C ADDR   223BH   A   
+R_DATA_ACK . . . .  C ADDR   2248H   A   
+R_DATA_NACK. . . .  C ADDR   2260H   A   
+SADDR. . . . . . .  D ADDR   00A9H   A   
+SADEN. . . . . . .  D ADDR   00B9H   A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SEC. . . . . . . .  N NUMB   0050H   A   
+SM1. . . . . . . .  B ADDR   0098H.6 A   
+SM2. . . . . . . .  B ADDR   0098H.5 A   
+SP . . . . . . . .  D ADDR   0081H   A   
+SPCON. . . . . . .  D ADDR   00C3H   A   
+SPDAT. . . . . . .  D ADDR   00C5H   A   
+SPSTA. . . . . . .  D ADDR   00C4H   A   
+SSADR. . . . . . .  D ADDR   0096H   A   
+SSCON. . . . . . .  D ADDR   0093H   A   
+SSCS . . . . . . .  D ADDR   0094H   A   
+SSDAT. . . . . . .  D ADDR   0095H   A   
+START. . . . . . .  C ADDR   21BBH   A   
+T2CON. . . . . . .  D ADDR   00C8H   A   
+T2MOD. . . . . . .  D ADDR   00C9H   A   
+TB8. . . . . . . .  B ADDR   0098H.3 A   
+TCLK . . . . . . .  B ADDR   00C8H.4 A   
+TCON . . . . . . .  D ADDR   0088H   A   
+TERMINA. . . . . .  C ADDR   21ABH   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . .  B ADDR   0088H.7 A   
+TF2. . . . . . . .  B ADDR   00C8H.7 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TH2. . . . . . . .  D ADDR   00CDH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+A51 MACRO ASSEMBLER  RTC                                                                  06/25/2013 17:46:12 PAGE    18
+
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TL2. . . . . . . .  D ADDR   00CCH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+TR2. . . . . . . .  B ADDR   00C8H.2 A   
+UBYCTHX. . . . . .  D ADDR   00E3H   A   
+UBYCTLX. . . . . .  D ADDR   00E2H   A   
+UDPADDH. . . . . .  D ADDR   00D7H   A   
+UDPADDL. . . . . .  D ADDR   00D6H   A   
+UEPCONX. . . . . .  D ADDR   00D4H   A   
+UEPDATX. . . . . .  D ADDR   00CFH   A   
+UEPIEN . . . . . .  D ADDR   00C2H   A   
+UEPINT . . . . . .  D ADDR   00F8H   A   
+UEPNUM . . . . . .  D ADDR   00C7H   A   
+UEPRST . . . . . .  D ADDR   00D5H   A   
+UEPSTAX. . . . . .  D ADDR   00CEH   A   
+UFNUMH . . . . . .  D ADDR   00BBH   A   
+UFNUML . . . . . .  D ADDR   00BAH   A   
+USBADDR. . . . . .  D ADDR   00C6H   A   
+USBCON . . . . . .  D ADDR   00BCH   A   
+USBIEN . . . . . .  D ADDR   00BEH   A   
+USBINT . . . . . .  D ADDR   00BDH   A   
+WDA1 . . . . . . .  C ADDR   220AH   A   
+WDA2 . . . . . . .  C ADDR   21FFH   A   
+WDTPRG . . . . . .  D ADDR   00A7H   A   
+WDTRST . . . . . .  D ADDR   00A6H   A   
+W_ADDR_ACK . . . .  C ADDR   21D5H   A   
+W_ADDR_NACK. . . .  C ADDR   21E1H   A   
+W_DATA_ACK . . . .  C ADDR   21ECH   A   
+W_DATA_NACK. . . .  C ADDR   2219H   A   
+YEA. . . . . . . .  N NUMB   0056H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

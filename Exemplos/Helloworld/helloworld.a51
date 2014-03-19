@@ -9,11 +9,12 @@
 LED3 EQU P1.4
 SW1 EQU P3.2
 
-ORG 0x00
+ORG 0x2000
 LJMP main
 
 main:
 	JNB SW1, toggle
+	SJMP main
 toggle:
 	CPL LED3
 	SJMP main

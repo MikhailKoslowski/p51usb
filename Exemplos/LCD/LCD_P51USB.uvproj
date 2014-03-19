@@ -12,13 +12,13 @@
       <ToolsetName>MCS-51</ToolsetName>
       <TargetOption>
         <TargetCommonOption>
-          <Device>AT89C5131</Device>
+          <Device>AT89C5131A</Device>
           <Vendor>Atmel</Vendor>
           <Cpu>IRAM(0-0xFF) XRAM(0-0x3FF) IROM(0-0x7FFF) CLOCK(32000000) MODP2</Cpu>
           <FlashUtilSpec>"batchisp" (-device $D -hardware RS232 -port COM1 -baudrate 19200 -operation MEMORY FLASH LOADBUFFER %H PROGRAM)</FlashUtilSpec>
           <StartupFile>"LIB\STARTUP.A51" ("Standard 8051 Startup Code")</StartupFile>
           <FlashDriverDll></FlashDriverDll>
-          <DeviceId>3533</DeviceId>
+          <DeviceId>4280</DeviceId>
           <RegisterFile>at89c5131.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
@@ -44,7 +44,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\</OutputDirectory>
-          <OutputName>helloworld</OutputName>
+          <OutputName>LCD_P51USB</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -137,7 +137,6 @@
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
-            <RestoreTracepoints>1</RestoreTracepoints>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
           <TargetSelection>0</TargetSelection>
@@ -166,7 +165,6 @@
             <Capability>0</Capability>
             <DriverSelection>-1</DriverSelection>
           </Flash1>
-          <bUseTDR>0</bUseTDR>
           <Flash2></Flash2>
           <Flash3>"batchisp" (-device $D -hardware RS232 -port COM1 -baudrate 19200 -operation MEMORY FLASH LOADBUFFER %H PROGRAM)</Flash3>
           <Flash4></Flash4>
@@ -218,7 +216,7 @@
               <RCB>
                 <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0xffff</Size>
+                <Size>0x10000</Size>
               </RCB>
               <RXB>
                 <Type>0</Type>
@@ -352,9 +350,9 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>helloworld.a51</FileName>
+              <FileName>LCD_P51USB.a51</FileName>
               <FileType>2</FileType>
-              <FilePath>.\helloworld.a51</FilePath>
+              <FilePath>.\LCD_P51USB.a51</FilePath>
             </File>
           </Files>
         </Group>

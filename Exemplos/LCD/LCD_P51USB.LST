@@ -1,0 +1,762 @@
+A51 MACRO ASSEMBLER  LCD_P51USB                                                           06/26/2013 18:19:43 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02b
+OBJECT MODULE PLACED IN LCD_P51USB.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE LCD_P51USB.a51 NOMOD51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;===============================================================================
+                       2     ; Autor: Mikhail A. Koslowski
+                       3     ; Placa P51USB v1sem2013
+                       4     ;===============================================================================
+                       5     ; Escreve "LCD P51USB" na primeira linha do display
+                       6     ;===============================================================================
+                       7     ;#include "..\P51USBv1sem2013.h"
+                +1     8     
+                +1     9     
+                +1    10     
+                +1    11     
+                +1    12     
+                +1    13     
+                +1    14     
+                +1    15     
+                +1    16     
+                +1    17     
+                +1    18     
+                +1    19     ;#include <at89c5131.h>
+                +2    20     
+                +2    21     
+                +2    22     
+                +2    23     
+                +2    24     
+                +2    25     
+                +2    26     
+                +2    27     
+                +2    28     
+                +2    29     
+                +2    30     
+                +2    31     
+                +2    32     
+                +2    33     
+                +2    34     
+                +2    35     
+                +2    36     
+                +2    37     
+                +2    38     
+                +2    39     
+                +2    40     
+                +2    41     
+                +2    42     
+                +2    43     
+                +2    44     
+                +2    45     
+                +2    46     
+                +2    47     
+                +2    48     
+  00E0          +2    49     sfr ACC = 0xE0 ;        /* Sfr ( ACC, bit addressable)*/
+  00F0          +2    50     sfr B = 0xF0 ;        /* Sfr ( B,   bit addressable)*/
+  00D0          +2    51     sfr PSW = 0xD0 ;        /* Sfr ( PSW, bit addressable)*/
+  0081          +2    52     sfr SP = 0x81 ;
+  0082          +2    53     sfr DPL = 0x82 ;
+  0083          +2    54     sfr DPH = 0x83 ;
+                +2    55     
+                +2    56     
+                +2    57     
+                +2    58     
+A51 MACRO ASSEMBLER  LCD_P51USB                                                           06/26/2013 18:19:43 PAGE     2
+
+                +2    59     
+                +2    60     
+  0080          +2    61     sfr P0 = 0x80 ;        /* Sfr ( P0, bit addressable)*/
+                +2    62     
+  0087          +2    63     sbit P0_7 = P0 ^ 7 ;
+  0086          +2    64     sbit P0_6 = P0 ^ 6 ;
+  0085          +2    65     sbit P0_5 = P0 ^ 5 ;
+  0084          +2    66     sbit P0_4 = P0 ^ 4 ;
+  0083          +2    67     sbit P0_3 = P0 ^ 3 ;
+  0082          +2    68     sbit P0_2 = P0 ^ 2 ;
+  0081          +2    69     sbit P0_1 = P0 ^ 1 ;
+  0080          +2    70     sbit P0_0 = P0 ^ 0 ;
+                +2    71     
+  0090          +2    72     sfr P1 = 0x90 ;        /* Sfr ( P1, bit addressable)*/
+                +2    73     
+  0097          +2    74     sbit P1_7 = P1 ^ 7 ;
+  0096          +2    75     sbit P1_6 = P1 ^ 6 ;
+  0095          +2    76     sbit P1_5 = P1 ^ 5 ;
+  0094          +2    77     sbit P1_4 = P1 ^ 4 ;
+  0093          +2    78     sbit P1_3 = P1 ^ 3 ;
+  0092          +2    79     sbit P1_2 = P1 ^ 2 ;
+  0091          +2    80     sbit P1_1 = P1 ^ 1 ;
+  0090          +2    81     sbit P1_0 = P1 ^ 0 ;
+                +2    82     
+  00A0          +2    83     sfr P2 = 0xA0 ;        /* Sfr ( P2, bit addressable)*/
+                +2    84     
+  00A7          +2    85     sbit P2_7 = P2 ^ 7 ;
+  00A6          +2    86     sbit P2_6 = P2 ^ 6 ;
+  00A5          +2    87     sbit P2_5 = P2 ^ 5 ;
+  00A4          +2    88     sbit P2_4 = P2 ^ 4 ;
+  00A3          +2    89     sbit P2_3 = P2 ^ 3 ;
+  00A2          +2    90     sbit P2_2 = P2 ^ 2 ;
+  00A1          +2    91     sbit P2_1 = P2 ^ 1 ;
+  00A0          +2    92     sbit P2_0 = P2 ^ 0 ;
+                +2    93     
+  00B0          +2    94     sfr P3 = 0xB0 ;        /* Sfr ( P3, bit addressable)*/
+                +2    95     
+  00B7          +2    96     sbit P3_7 = P3 ^ 7 ;
+  00B6          +2    97     sbit P3_6 = P3 ^ 6 ;
+  00B5          +2    98     sbit P3_5 = P3 ^ 5 ;
+  00B4          +2    99     sbit P3_4 = P3 ^ 4 ;
+  00B3          +2   100     sbit P3_3 = P3 ^ 3 ;
+  00B2          +2   101     sbit P3_2 = P3 ^ 2 ;
+  00B1          +2   102     sbit P3_1 = P3 ^ 1 ;
+  00B0          +2   103     sbit P3_0 = P3 ^ 0 ;
+                +2   104     
+  00C0          +2   105     sfr P4 = 0xC0 ;        /* Sfr ( P4, bit addressable)*/
+                +2   106     
+  00C1          +2   107     sbit P4_1 = P4 ^ 1 ;
+  00C0          +2   108     sbit P4_0 = P4 ^ 0 ;
+                +2   109     
+                +2   110     
+                +2   111     
+                +2   112     
+  008C          +2   113     sfr TH0 = 0x8C ; 
+  008A          +2   114     sfr TL0 = 0x8A ;
+  008D          +2   115     sfr TH1 = 0x8D ;
+  008B          +2   116     sfr TL1 = 0x8B ;
+  00CD          +2   117     sfr TH2 = 0xCD ;
+  00CC          +2   118     sfr TL2 = 0xCC ;
+  0088          +2   119     sfr TCON = 0x88 ;        /* Sfr ( TCON,  bit addressable)*/
+  0089          +2   120     sfr TMOD = 0x89 ;
+  00C8          +2   121     sfr T2CON = 0xC8 ;        /* Sfr ( T2CON, bit addressable)*/
+  00C9          +2   122     sfr T2MOD = 0xC9 ;
+  00CB          +2   123     sfr RCAP2H = 0xCB ;
+  00CA          +2   124     sfr RCAP2L = 0xCA ;
+A51 MACRO ASSEMBLER  LCD_P51USB                                                           06/26/2013 18:19:43 PAGE     3
+
+  00A6          +2   125     sfr WDTRST = 0xA6 ;
+  00A7          +2   126     sfr WDTPRG = 0xA7 ;
+                +2   127     
+                +2   128                                 
+  008F          +2   129     sbit TF1 = TCON ^ 7 ;
+  008E          +2   130     sbit TR1 = TCON ^ 6 ;
+  008D          +2   131     sbit TF0 = TCON ^ 5 ;
+  008C          +2   132     sbit TR0 = TCON ^ 4 ;
+  008B          +2   133     sbit IE1_ = TCON ^ 3 ;
+  008A          +2   134     sbit IT1 = TCON ^ 2 ;
+  0089          +2   135     sbit IE0_ = TCON ^ 1 ;
+  0088          +2   136     sbit IT0 = TCON ^ 0 ;
+                +2   137                                 
+  00CF          +2   138     sbit TF2 = T2CON ^ 7 ;
+  00CE          +2   139     sbit EXF2 = T2CON ^ 6 ;
+  00CD          +2   140     sbit RCLK = T2CON ^ 5 ;
+  00CC          +2   141     sbit TCLK = T2CON ^ 4 ;
+  00CB          +2   142     sbit EXEN2 = T2CON ^ 3 ;
+  00CA          +2   143     sbit TR2 = T2CON ^ 2 ;
+  00C9          +2   144     sbit C_T2 = T2CON ^ 1 ;
+  00C8          +2   145     sbit CP_RL2 = T2CON ^ 0 ;
+                +2   146     
+                +2   147     
+                +2   148     
+                +2   149     
+  0098          +2   150     sfr SCON = 0x98 ;
+  0099          +2   151     sfr SBUF = 0x99 ;
+  00B9          +2   152     sfr SADEN = 0xB9 ;
+  00A9          +2   153     sfr SADDR = 0xA9 ;
+                +2   154     
+  009F          +2   155     sbit FE_SM0 = SCON ^ 7 ;
+  009E          +2   156     sbit SM1 = SCON ^ 6 ;
+  009D          +2   157     sbit SM2 = SCON ^ 5 ;
+  009C          +2   158     sbit REN = SCON ^ 4 ;
+  009B          +2   159     sbit TB8 = SCON ^ 3 ;
+  009A          +2   160     sbit RB8 = SCON ^ 2 ;
+  0099          +2   161     sbit TI = SCON ^ 1 ;
+  0098          +2   162     sbit RI = SCON ^ 0 ;
+                +2   163     
+                +2   164     
+                +2   165     
+  009A          +2   166     sfr BRL = 0x9A ;
+  009B          +2   167     sfr BDRCON = 0x9B ;
+                +2   168     
+                +2   169     
+                +2   170     
+  00D8          +2   171     sfr CCON = 0xD8 ;      /* Sfr ( CCON, bit addressable)*/
+  00D9          +2   172     sfr CMOD = 0xD9 ;
+  00E9          +2   173     sfr CL = 0xE9 ;
+  00F9          +2   174     sfr CH = 0xF9 ;
+  00DA          +2   175     sfr CCAPM0 = 0xDA ;
+  00DB          +2   176     sfr CCAPM1 = 0xDB ;
+  00DC          +2   177     sfr CCAPM2 = 0xDC ;
+  00DD          +2   178     sfr CCAPM3 = 0xDD ;
+  00DE          +2   179     sfr CCAPM4 = 0xDE ;
+  00FA          +2   180     sfr CCAP0H = 0xFA ;
+  00FB          +2   181     sfr CCAP1H = 0xFB ;
+  00FC          +2   182     sfr CCAP2H = 0xFC ;
+  00FD          +2   183     sfr CCAP3H = 0xFD ;
+  00FE          +2   184     sfr CCAP4H = 0xFE ;
+  00EA          +2   185     sfr CCAP0L = 0xEA ;
+  00EB          +2   186     sfr CCAP1L = 0xEB ;
+  00EC          +2   187     sfr CCAP2L = 0xEC ;
+  00ED          +2   188     sfr CCAP3L = 0xED ;
+  00EE          +2   189     sfr CCAP4L = 0xEE ;
+                +2   190     
+A51 MACRO ASSEMBLER  LCD_P51USB                                                           06/26/2013 18:19:43 PAGE     4
+
+                +2   191                                  
+  00DF          +2   192     sbit CF = CCON ^ 7 ;
+  00DE          +2   193     sbit CR = CCON ^ 6 ;
+  00DC          +2   194     sbit CCF4 = CCON ^ 4 ;
+  00DB          +2   195     sbit CCF3 = CCON ^ 3 ;
+  00DA          +2   196     sbit CCF2 = CCON ^ 2 ;
+  00D9          +2   197     sbit CCF1 = CCON ^ 1 ;
+  00D8          +2   198     sbit CCF0 = CCON ^ 0 ;
+                +2   199     
+                +2   200     
+                +2   201     
+                +2   202     
+  00A8          +2   203     sfr IEN0 = 0xA8 ;       /* Sfr ( IEN0,  bit addressable                 */
+  00B1          +2   204     sfr IEN1 = 0xB1 ;
+  00B8          +2   205     sfr IPL0 = 0xB8 ;       /* Sfr ( IPL0, bit addressable          */
+  00B7          +2   206     sfr IPH0 = 0xB7 ;
+  00B2          +2   207     sfr IPL1 = 0xB2 ;
+  00B3          +2   208     sfr IPH1 = 0xB3 ;
+                +2   209     
+                +2   210                                  
+  00AF          +2   211     sbit EA = IEN0 ^ 7 ;
+  00AE          +2   212     sbit EC = IEN0 ^ 6 ;
+  00AD          +2   213     sbit ET2 = IEN0 ^ 5 ;
+  00AC          +2   214     sbit ES = IEN0 ^ 4 ;
+  00AB          +2   215     sbit ET1 = IEN0 ^ 3 ;
+  00AA          +2   216     sbit EX1 = IEN0 ^ 2 ;
+  00A9          +2   217     sbit ET0 = IEN0 ^ 1 ;
+  00A8          +2   218     sbit EX0 = IEN0 ^ 0 ;
+                +2   219                                  
+  00BE          +2   220     sbit PPCL = IPL0 ^ 6 ;
+  00BD          +2   221     sbit PT2L = IPL0 ^ 5 ;
+  00BC          +2   222     sbit PSL = IPL0 ^ 4 ;
+  00BB          +2   223     sbit PTIL = IPL0 ^ 3 ;
+  00BA          +2   224     sbit PXIL = IPL0 ^ 2 ;
+  00B9          +2   225     sbit PT0L = IPL0 ^ 1 ;
+  00B8          +2   226     sbit PX0L = IPL0 ^ 0 ;
+                +2   227     
+                +2   228     
+                +2   229     
+  00A3          +2   230     sfr PLLCON = 0xA3 ;
+  00A4          +2   231     sfr PLLDIV = 0xA4 ;
+                +2   232     
+                +2   233     
+                +2   234     
+  009E          +2   235     sfr KBF = 0x9E ;
+  009D          +2   236     sfr KBE = 0x9D ;
+  009C          +2   237     sfr KBLS = 0x9C ;
+                +2   238     
+                +2   239     
+                +2   240     
+  0093          +2   241     sfr SSCON = 0x93 ;
+  0094          +2   242     sfr SSCS = 0x94 ;
+  0095          +2   243     sfr SSDAT = 0x95 ;
+  0096          +2   244     sfr SSADR = 0x96 ;
+                +2   245     
+                +2   246     
+                +2   247     
+  00C3          +2   248     sfr SPCON = 0xC3 ;
+  00C4          +2   249     sfr SPSTA = 0xC4 ;
+  00C5          +2   250     sfr SPDAT = 0xC5 ;
+                +2   251     
+                +2   252     
+                +2   253     
+  00BC          +2   254     sfr USBCON = 0xBC ;
+  00C6          +2   255     sfr USBADDR = 0xC6 ;
+  00BD          +2   256     sfr USBINT = 0xBD ;
+A51 MACRO ASSEMBLER  LCD_P51USB                                                           06/26/2013 18:19:43 PAGE     5
+
+  00BE          +2   257     sfr USBIEN = 0xBE ;
+  00C7          +2   258     sfr UEPNUM = 0xC7 ;
+  00D4          +2   259     sfr UEPCONX = 0xD4 ;
+  00CE          +2   260     sfr UEPSTAX = 0xCE ;
+  00D5          +2   261     sfr UEPRST = 0xD5 ;
+  00F8          +2   262     sfr UEPINT = 0xF8 ;         /* Sfr ( UEPINT, bit addressable) */
+  00C2          +2   263     sfr UEPIEN = 0xC2 ;
+  00CF          +2   264     sfr UEPDATX = 0xCF ;
+  00E2          +2   265     sfr UBYCTLX = 0xE2 ;
+  00E3          +2   266     sfr UBYCTHX = 0xE3 ;
+  00D6          +2   267     sfr UDPADDL = 0xD6 ;
+  00D7          +2   268     sfr UDPADDH = 0xD7 ;
+  00BA          +2   269     sfr UFNUML = 0xBA ;
+  00BB          +2   270     sfr UFNUMH = 0xBB ;
+                +2   271                                     
+  00FE          +2   272     sbit EP6INT = UEPINT ^ 6 ;
+  00FD          +2   273     sbit EP5INT = UEPINT ^ 5 ;
+  00FC          +2   274     sbit EP4INT = UEPINT ^ 4 ;
+  00FB          +2   275     sbit EP3INT = UEPINT ^ 3 ;
+  00FA          +2   276     sbit EP2INT = UEPINT ^ 2 ;
+  00F9          +2   277     sbit EP1INT = UEPINT ^ 1 ;
+  00F8          +2   278     sbit EP0INT = UEPINT ^ 0 ;
+                +2   279     
+                +2   280     
+                +2   281     
+  0087          +2   282     sfr PCON = 0x87 ;
+  008E          +2   283     sfr AUXR = 0x8E ;
+  00A2          +2   284     sfr AUXR1 = 0xA2 ;
+  008F          +2   285     sfr CKCON0 = 0x8F ;
+  00AF          +2   286     sfr CKCON1 = 0xAF ;
+  0085          +2   287     sfr CKSEL = 0x85 ;
+  00F1          +2   288     sfr LEDCON = 0xF1 ;
+  00D1          +2   289     sfr FCON = 0xD1 ;
+  00D2          +2   290     sfr EECON = 0xD2 ;
+                +2   291     
+                +2   292     
+                +2   293     
+                +2   294     
+                +1   295     
+                +1   296     
+                +1   297     
+                +1   298     
+                +1   299     
+                +1   300     
+                +1   301     
+                +1   302     
+                +1   303     
+                +1   304     
+                +1   305     
+                +1   306     
+                +1   307     
+                +1   308     
+                +1   309     
+                +1   310     
+                +1   311     
+                +1   312     
+                +1   313     
+                +1   314     
+                +1   315     
+                +1   316     
+                +1   317     
+                +1   318     
+                +1   319     
+                +1   320     
+                +1   321     
+                +1   322     
+A51 MACRO ASSEMBLER  LCD_P51USB                                                           06/26/2013 18:19:43 PAGE     6
+
+                +1   323     
+                +1   324     
+                +1   325     
+                +1   326     
+                +1   327     
+                +1   328     
+                +1   329     
+                +1   330     
+                +1   331     
+                +1   332     
+                +1   333     
+                +1   334     
+                +1   335     
+                +1   336     
+                +1   337     
+                +1   338     
+                +1   339     
+                +1   340     
+                +1   341     
+                +1   342     
+                +1   343     
+                +1   344     
+                +1   345     
+                +1   346     
+                +1   347     
+                +1   348     
+                +1   349     
+                +1   350     
+                +1   351     
+                +1   352     
+                +1   353     
+                +1   354     
+                +1   355     
+                +1   356     
+                +1   357     
+                +1   358     
+                +1   359     
+                +1   360     
+                +1   361     
+                +1   362     
+                +1   363     
+                +1   364     
+                +1   365     
+                +1   366     
+                +1   367     
+                +1   368     
+                +1   369     
+                +1   370     
+                +1   371     
+                +1   372     
+                +1   373     
+                +1   374     
+                +1   375     
+                +1   376     
+                +1   377     
+                +1   378     
+                +1   379     
+                +1   380     
+                +1   381     
+                +1   382     
+                +1   383     
+                     384     
+                     385             
+                     386     ;===============================================================================
+                     387     ; Variáveis
+                     388     ;===============================================================================
+A51 MACRO ASSEMBLER  LCD_P51USB                                                           06/26/2013 18:19:43 PAGE     7
+
+  0041               389     DADO EQU 0x41 ; dados a serem escritos no display
+  0042               390     INST EQU 0x42 ; instrucoes a serem executadas no display
+  0043               391     COUNT EQU 0x43 ; usado para contar as letras ja escritas no display
+                     392     
+                     393     ;===============================================================================
+                     394     ; Vetor de interrupção (0x0000 até 0x007A)
+                     395     ;===============================================================================
+2000                 396     ORG 0x2000 ;reset do sistema
+2000 8079            397     JMP main
+                     398     
+                     399     ;===============================================================================
+                     400     ; Código (0x007B até 0x7FFF)
+                     401     ;===============================================================================
+207B                 402     ORG 0x207B
+207B                 403     main:
+                     404     
+207B D2AF            405             SETB EA ; habilita as interrupções para que o monitor funcione corretamente
+                     406     
+207D 75F1A0          407             MOV LEDCON, #0xA0
+                     408     
+2080 C2B6            409             CLR P3.6
+2082 C2B7            410             CLR P3.7
+2084 C294            411             CLR P1.4
+                     412     
+2086 118F            413             CALL lcd_ini    ; inicializa o display
+                     414             
+2088 9020E9          415             MOV DPTR, #frase1       ; carrega DPTR com o ponteiro para o inicio da frase
+208B 11DC            416             CALL lcd_string
+                     417     
+208D                 418     fim:
+208D 80FE            419             JMP $
+                     420     
+                     421     ;===============================================================================
+                     422     ; Funções do LCD
+                     423     ;===============================================================================
+                     424     
+                     425     ;------------------------------------------------------------------------------
+                     426     ; Inicializa
+                     427     ;------------------------------------------------------------------------------
+208F                 428     lcd_ini:
+                     429             ; Enviar 3x a instrução 0x30 (como utiliza o busy flag, não precisa de delay)
+208F 754230          430             MOV INST, #0x30
+2092 11C4            431             CALL lcd_inst
+2094 11C4            432             CALL lcd_inst
+2096 11C4            433             CALL lcd_inst
+                     434             
+                     435             ; definições do usuário
+2098 754238          436             MOV INST, #0x38 ; 8bits, 2 linhas, 5x8
+209B 11C4            437             CALL lcd_inst
+                     438             
+209D 75420E          439             MOV INST, #0x0E ; liga o display, mostra o cursor, não pisca.
+20A0 11C4            440             CALL lcd_inst
+                     441             
+20A2 754206          442             MOV INST, #0x06 ; Não desloca a frase, cursor vai para direita.
+20A5 11C4            443             CALL lcd_inst
+                     444             
+20A7 754202          445             MOV INST, #0x02 ; Return home.
+20AA 11C4            446             CALL lcd_inst
+                     447             
+20AC 754201          448             MOV INST, #0x01 ; Clear display
+20AF 11C4            449             CALL lcd_inst
+                     450             
+20B1 22              451             RET
+                     452     
+                     453     ;------------------------------------------------------------------------------
+                     454     ; Verifica o busy_flag
+A51 MACRO ASSEMBLER  LCD_P51USB                                                           06/26/2013 18:19:43 PAGE     8
+
+                     455     ; Retorna quando o LCD estiver disponível (busy == 0)
+                     456     ;------------------------------------------------------------------------------
+20B2                 457     lcd_busy:
+20B2 C2A5            458             CLR P2.5
+20B4 D2A6            459             SETB P2.6
+20B6 D287            460             SETB P0.7       ; Seta o bit P0.7, para poder ler o valor correto do busy flag
+20B8                 461     lcd_busy_1:
+20B8 D2A7            462             SETB P2.7
+20BA 308704          463             JNB P0.7, lcd_busy_2 ; se busy==0, terminou!
+20BD C2A7            464             CLR P2.7
+20BF 80F7            465             JMP lcd_busy_1
+20C1                 466     lcd_busy_2:
+20C1 C2A6            467             CLR P2.6
+20C3 22              468             RET
+                     469     
+                     470     ;------------------------------------------------------------------------------
+                     471     ; Envia uma instrução
+                     472     ; Parâmetros: INST
+                     473     ;------------------------------------------------------------------------------
+20C4                 474     lcd_inst:
+20C4 11B2            475             CALL lcd_busy
+20C6 C2A5            476             CLR P2.5
+20C8 D2A7            477             SETB P2.7
+20CA 854280          478             MOV P0, INST
+20CD C2A7            479             CLR P2.7
+20CF 22              480             RET
+                     481     
+                     482     ;------------------------------------------------------------------------------
+                     483     ; Envia um dado
+                     484     ; Parâmetros: DADO
+                     485     ;------------------------------------------------------------------------------
+20D0                 486     lcd_dado:
+20D0 11B2            487             CALL lcd_busy
+20D2 D2A5            488             SETB P2.5
+20D4 D2A7            489             SETB P2.7
+20D6 854180          490             MOV P0, DADO
+20D9 C2A7            491             CLR P2.7
+20DB 22              492             RET
+                     493     
+                     494     ;------------------------------------------------------------------------------
+                     495     ; Escreve uma string
+                     496     ; Parâmetros: DPTR (ponteiro para o string)
+                     497     ; Destroi: A, DPTR
+                     498     ;------------------------------------------------------------------------------
+20DC                 499     lcd_string:
+20DC 7400            500             MOV A, #0x00
+20DE 93              501             MOVC A, @A+DPTR         ; carrega o caracter em A
+20DF 6007            502             JZ fim_lcd_string       ; Se for zero, acabou
+20E1 F541            503             MOV DADO, A                     ; senão
+20E3 11D0            504             CALL lcd_dado           ; escreve no display
+20E5 A3              505             INC DPTR                        ; incrementa DPTR
+20E6 80F4            506             JMP lcd_string          ; e vai pro próximo
+20E8                 507     fim_lcd_string:         
+20E8 22              508             RET
+                     509     
+                     510     
+                     511     ;===============================================================================
+                     512     ; Constantes definidas na memória de código.
+                     513     ;===============================================================================
+20E9                 514     frase1:
+                     515     ;  '                ' 16chars
+20E9 2020204C        516     DB '   LCD P51USB   '
+20ED 43442050                
+20F1 35315553                
+20F5 42202020                
+20F9 00              517     DB 0x00
+A51 MACRO ASSEMBLER  LCD_P51USB                                                           06/26/2013 18:19:43 PAGE     9
+
+                     518     
+                     519     END
+A51 MACRO ASSEMBLER  LCD_P51USB                                                           06/26/2013 18:19:43 PAGE    10
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+AUXR . . . . . . .  D ADDR   008EH   A   
+AUXR1. . . . . . .  D ADDR   00A2H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+BDRCON . . . . . .  D ADDR   009BH   A   
+BRL. . . . . . . .  D ADDR   009AH   A   
+CCAP0H . . . . . .  D ADDR   00FAH   A   
+CCAP0L . . . . . .  D ADDR   00EAH   A   
+CCAP1H . . . . . .  D ADDR   00FBH   A   
+CCAP1L . . . . . .  D ADDR   00EBH   A   
+CCAP2H . . . . . .  D ADDR   00FCH   A   
+CCAP2L . . . . . .  D ADDR   00ECH   A   
+CCAP3H . . . . . .  D ADDR   00FDH   A   
+CCAP3L . . . . . .  D ADDR   00EDH   A   
+CCAP4H . . . . . .  D ADDR   00FEH   A   
+CCAP4L . . . . . .  D ADDR   00EEH   A   
+CCAPM0 . . . . . .  D ADDR   00DAH   A   
+CCAPM1 . . . . . .  D ADDR   00DBH   A   
+CCAPM2 . . . . . .  D ADDR   00DCH   A   
+CCAPM3 . . . . . .  D ADDR   00DDH   A   
+CCAPM4 . . . . . .  D ADDR   00DEH   A   
+CCF0 . . . . . . .  B ADDR   00D8H.0 A   
+CCF1 . . . . . . .  B ADDR   00D8H.1 A   
+CCF2 . . . . . . .  B ADDR   00D8H.2 A   
+CCF3 . . . . . . .  B ADDR   00D8H.3 A   
+CCF4 . . . . . . .  B ADDR   00D8H.4 A   
+CCON . . . . . . .  D ADDR   00D8H   A   
+CF . . . . . . . .  B ADDR   00D8H.7 A   
+CH . . . . . . . .  D ADDR   00F9H   A   
+CKCON0 . . . . . .  D ADDR   008FH   A   
+CKCON1 . . . . . .  D ADDR   00AFH   A   
+CKSEL. . . . . . .  D ADDR   0085H   A   
+CL . . . . . . . .  D ADDR   00E9H   A   
+CMOD . . . . . . .  D ADDR   00D9H   A   
+COUNT. . . . . . .  N NUMB   0043H   A   
+CP_RL2 . . . . . .  B ADDR   00C8H.0 A   
+CR . . . . . . . .  B ADDR   00D8H.6 A   
+C_T2 . . . . . . .  B ADDR   00C8H.1 A   
+DADO . . . . . . .  N NUMB   0041H   A   
+DPH. . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . .  D ADDR   0082H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+EC . . . . . . . .  B ADDR   00A8H.6 A   
+EECON. . . . . . .  D ADDR   00D2H   A   
+EP0INT . . . . . .  B ADDR   00F8H.0 A   
+EP1INT . . . . . .  B ADDR   00F8H.1 A   
+EP2INT . . . . . .  B ADDR   00F8H.2 A   
+EP3INT . . . . . .  B ADDR   00F8H.3 A   
+EP4INT . . . . . .  B ADDR   00F8H.4 A   
+EP5INT . . . . . .  B ADDR   00F8H.5 A   
+EP6INT . . . . . .  B ADDR   00F8H.6 A   
+ES . . . . . . . .  B ADDR   00A8H.4 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . .  B ADDR   00A8H.3 A   
+ET2. . . . . . . .  B ADDR   00A8H.5 A   
+EX0. . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . .  B ADDR   00A8H.2 A   
+EXEN2. . . . . . .  B ADDR   00C8H.3 A   
+EXF2 . . . . . . .  B ADDR   00C8H.6 A   
+FCON . . . . . . .  D ADDR   00D1H   A   
+A51 MACRO ASSEMBLER  LCD_P51USB                                                           06/26/2013 18:19:43 PAGE    11
+
+FE_SM0 . . . . . .  B ADDR   0098H.7 A   
+FIM. . . . . . . .  C ADDR   208DH   A   
+FIM_LCD_STRING . .  C ADDR   20E8H   A   
+FRASE1 . . . . . .  C ADDR   20E9H   A   
+IE0_ . . . . . . .  B ADDR   0088H.1 A   
+IE1_ . . . . . . .  B ADDR   0088H.3 A   
+IEN0 . . . . . . .  D ADDR   00A8H   A   
+IEN1 . . . . . . .  D ADDR   00B1H   A   
+INST . . . . . . .  N NUMB   0042H   A   
+IPH0 . . . . . . .  D ADDR   00B7H   A   
+IPH1 . . . . . . .  D ADDR   00B3H   A   
+IPL0 . . . . . . .  D ADDR   00B8H   A   
+IPL1 . . . . . . .  D ADDR   00B2H   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+KBE. . . . . . . .  D ADDR   009DH   A   
+KBF. . . . . . . .  D ADDR   009EH   A   
+KBLS . . . . . . .  D ADDR   009CH   A   
+LCD_BUSY . . . . .  C ADDR   20B2H   A   
+LCD_BUSY_1 . . . .  C ADDR   20B8H   A   
+LCD_BUSY_2 . . . .  C ADDR   20C1H   A   
+LCD_DADO . . . . .  C ADDR   20D0H   A   
+LCD_INI. . . . . .  C ADDR   208FH   A   
+LCD_INST . . . . .  C ADDR   20C4H   A   
+LCD_STRING . . . .  C ADDR   20DCH   A   
+LEDCON . . . . . .  D ADDR   00F1H   A   
+MAIN . . . . . . .  C ADDR   207BH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P0_0 . . . . . . .  B ADDR   0080H.0 A   
+P0_1 . . . . . . .  B ADDR   0080H.1 A   
+P0_2 . . . . . . .  B ADDR   0080H.2 A   
+P0_3 . . . . . . .  B ADDR   0080H.3 A   
+P0_4 . . . . . . .  B ADDR   0080H.4 A   
+P0_5 . . . . . . .  B ADDR   0080H.5 A   
+P0_6 . . . . . . .  B ADDR   0080H.6 A   
+P0_7 . . . . . . .  B ADDR   0080H.7 A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P1_0 . . . . . . .  B ADDR   0090H.0 A   
+P1_1 . . . . . . .  B ADDR   0090H.1 A   
+P1_2 . . . . . . .  B ADDR   0090H.2 A   
+P1_3 . . . . . . .  B ADDR   0090H.3 A   
+P1_4 . . . . . . .  B ADDR   0090H.4 A   
+P1_5 . . . . . . .  B ADDR   0090H.5 A   
+P1_6 . . . . . . .  B ADDR   0090H.6 A   
+P1_7 . . . . . . .  B ADDR   0090H.7 A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P2_0 . . . . . . .  B ADDR   00A0H.0 A   
+P2_1 . . . . . . .  B ADDR   00A0H.1 A   
+P2_2 . . . . . . .  B ADDR   00A0H.2 A   
+P2_3 . . . . . . .  B ADDR   00A0H.3 A   
+P2_4 . . . . . . .  B ADDR   00A0H.4 A   
+P2_5 . . . . . . .  B ADDR   00A0H.5 A   
+P2_6 . . . . . . .  B ADDR   00A0H.6 A   
+P2_7 . . . . . . .  B ADDR   00A0H.7 A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+P3_0 . . . . . . .  B ADDR   00B0H.0 A   
+P3_1 . . . . . . .  B ADDR   00B0H.1 A   
+P3_2 . . . . . . .  B ADDR   00B0H.2 A   
+P3_3 . . . . . . .  B ADDR   00B0H.3 A   
+P3_4 . . . . . . .  B ADDR   00B0H.4 A   
+P3_5 . . . . . . .  B ADDR   00B0H.5 A   
+P3_6 . . . . . . .  B ADDR   00B0H.6 A   
+P3_7 . . . . . . .  B ADDR   00B0H.7 A   
+P4 . . . . . . . .  D ADDR   00C0H   A   
+P4_0 . . . . . . .  B ADDR   00C0H.0 A   
+P4_1 . . . . . . .  B ADDR   00C0H.1 A   
+A51 MACRO ASSEMBLER  LCD_P51USB                                                           06/26/2013 18:19:43 PAGE    12
+
+PCON . . . . . . .  D ADDR   0087H   A   
+PLLCON . . . . . .  D ADDR   00A3H   A   
+PLLDIV . . . . . .  D ADDR   00A4H   A   
+PPCL . . . . . . .  B ADDR   00B8H.6 A   
+PSL. . . . . . . .  B ADDR   00B8H.4 A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+PT0L . . . . . . .  B ADDR   00B8H.1 A   
+PT2L . . . . . . .  B ADDR   00B8H.5 A   
+PTIL . . . . . . .  B ADDR   00B8H.3 A   
+PX0L . . . . . . .  B ADDR   00B8H.0 A   
+PXIL . . . . . . .  B ADDR   00B8H.2 A   
+RB8. . . . . . . .  B ADDR   0098H.2 A   
+RCAP2H . . . . . .  D ADDR   00CBH   A   
+RCAP2L . . . . . .  D ADDR   00CAH   A   
+RCLK . . . . . . .  B ADDR   00C8H.5 A   
+REN. . . . . . . .  B ADDR   0098H.4 A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+SADDR. . . . . . .  D ADDR   00A9H   A   
+SADEN. . . . . . .  D ADDR   00B9H   A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SM1. . . . . . . .  B ADDR   0098H.6 A   
+SM2. . . . . . . .  B ADDR   0098H.5 A   
+SP . . . . . . . .  D ADDR   0081H   A   
+SPCON. . . . . . .  D ADDR   00C3H   A   
+SPDAT. . . . . . .  D ADDR   00C5H   A   
+SPSTA. . . . . . .  D ADDR   00C4H   A   
+SSADR. . . . . . .  D ADDR   0096H   A   
+SSCON. . . . . . .  D ADDR   0093H   A   
+SSCS . . . . . . .  D ADDR   0094H   A   
+SSDAT. . . . . . .  D ADDR   0095H   A   
+T2CON. . . . . . .  D ADDR   00C8H   A   
+T2MOD. . . . . . .  D ADDR   00C9H   A   
+TB8. . . . . . . .  B ADDR   0098H.3 A   
+TCLK . . . . . . .  B ADDR   00C8H.4 A   
+TCON . . . . . . .  D ADDR   0088H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . .  B ADDR   0088H.7 A   
+TF2. . . . . . . .  B ADDR   00C8H.7 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TH2. . . . . . . .  D ADDR   00CDH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TL2. . . . . . . .  D ADDR   00CCH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+TR2. . . . . . . .  B ADDR   00C8H.2 A   
+UBYCTHX. . . . . .  D ADDR   00E3H   A   
+UBYCTLX. . . . . .  D ADDR   00E2H   A   
+UDPADDH. . . . . .  D ADDR   00D7H   A   
+UDPADDL. . . . . .  D ADDR   00D6H   A   
+UEPCONX. . . . . .  D ADDR   00D4H   A   
+UEPDATX. . . . . .  D ADDR   00CFH   A   
+UEPIEN . . . . . .  D ADDR   00C2H   A   
+UEPINT . . . . . .  D ADDR   00F8H   A   
+UEPNUM . . . . . .  D ADDR   00C7H   A   
+UEPRST . . . . . .  D ADDR   00D5H   A   
+UEPSTAX. . . . . .  D ADDR   00CEH   A   
+UFNUMH . . . . . .  D ADDR   00BBH   A   
+UFNUML . . . . . .  D ADDR   00BAH   A   
+USBADDR. . . . . .  D ADDR   00C6H   A   
+USBCON . . . . . .  D ADDR   00BCH   A   
+USBIEN . . . . . .  D ADDR   00BEH   A   
+A51 MACRO ASSEMBLER  LCD_P51USB                                                           06/26/2013 18:19:43 PAGE    13
+
+USBINT . . . . . .  D ADDR   00BDH   A   
+WDTPRG . . . . . .  D ADDR   00A7H   A   
+WDTRST . . . . . .  D ADDR   00A6H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

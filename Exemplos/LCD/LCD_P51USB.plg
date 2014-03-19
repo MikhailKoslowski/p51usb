@@ -1,0 +1,21 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\Mikhail\Sandbox\8051\Projetos P51USB\LCD\LCD_P51USB.uvproj
+Project File Date:  06/17/2013
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling LCD_P51USB.a51...
+linking...
+Program Size: data=8.0 xdata=0 code=8433
+creating hex file from "LCD_P51USB"...
+"LCD_P51USB" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling LCD_P51USB.a51...
+linking...
+Program Size: data=8.0 xdata=0 code=8442
+creating hex file from "LCD_P51USB"...
+"LCD_P51USB" - 0 Error(s), 0 Warning(s).

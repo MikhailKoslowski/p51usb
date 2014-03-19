@@ -12,13 +12,13 @@
       <ToolsetName>MCS-51</ToolsetName>
       <TargetOption>
         <TargetCommonOption>
-          <Device>AT89C5131</Device>
+          <Device>AT89C5131A</Device>
           <Vendor>Atmel</Vendor>
           <Cpu>IRAM(0-0xFF) XRAM(0-0x3FF) IROM(0-0x7FFF) CLOCK(32000000) MODP2</Cpu>
           <FlashUtilSpec>"batchisp" (-device $D -hardware RS232 -port COM1 -baudrate 19200 -operation MEMORY FLASH LOADBUFFER %H PROGRAM)</FlashUtilSpec>
           <StartupFile>"LIB\STARTUP.A51" ("Standard 8051 Startup Code")</StartupFile>
           <FlashDriverDll></FlashDriverDll>
-          <DeviceId>3533</DeviceId>
+          <DeviceId>4280</DeviceId>
           <RegisterFile>at89c5131.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
@@ -44,10 +44,10 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\</OutputDirectory>
-          <OutputName>helloworld</OutputName>
+          <OutputName>rtc</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>1</CreateHexFile>
+          <CreateHexFile>0</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\</ListingPath>
@@ -131,13 +131,12 @@
           <Target>
             <UseTarget>1</UseTarget>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
-            <RunToMain>0</RunToMain>
+            <RunToMain>1</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
             <RestoreWatchpoints>1</RestoreWatchpoints>
             <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
-            <RestoreTracepoints>1</RestoreTracepoints>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
           <TargetSelection>0</TargetSelection>
@@ -166,7 +165,6 @@
             <Capability>0</Capability>
             <DriverSelection>-1</DriverSelection>
           </Flash1>
-          <bUseTDR>0</bUseTDR>
           <Flash2></Flash2>
           <Flash3>"batchisp" (-device $D -hardware RS232 -port COM1 -baudrate 19200 -operation MEMORY FLASH LOADBUFFER %H PROGRAM)</Flash3>
           <Flash4></Flash4>
@@ -294,7 +292,7 @@
             <SizeSpeed>1</SizeSpeed>
             <ObjectExtend>1</ObjectExtend>
             <ACallAJmp>0</ACallAJmp>
-            <InterruptVectorAddress>0</InterruptVectorAddress>
+            <InterruptVectorAddress>8192</InterruptVectorAddress>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -352,9 +350,9 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>helloworld.a51</FileName>
+              <FileName>rtc.a51</FileName>
               <FileType>2</FileType>
-              <FilePath>.\helloworld.a51</FilePath>
+              <FilePath>.\rtc.a51</FilePath>
             </File>
           </Files>
         </Group>

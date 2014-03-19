@@ -1,15 +1,15 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        03/15/2014  16:15:17  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        06/26/2013  18:19:43  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
-C:\KEIL\C51\BIN\BL51.EXE helloworld.obj TO helloworld RAMSIZE (256)
+C:\KEIL\C51\BIN\BL51.EXE LCD_P51USB.obj TO LCD_P51USB RAMSIZE (256)
 
 
 INPUT MODULES INCLUDED:
-  helloworld.obj (HELLOWORLD)
+  LCD_P51USB.obj (LCD_P51USB)
 
 
-LINK MAP OF MODULE:  helloworld (HELLOWORLD)
+LINK MAP OF MODULE:  LCD_P51USB (LCD_P51USB)
 
 
             TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
@@ -19,16 +19,16 @@ LINK MAP OF MODULE:  helloworld (HELLOWORLD)
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
-            CODE    0000H     200CH     ABSOLUTE     
+            CODE    0000H     20FAH     ABSOLUTE     
 
 
 
-SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
+SYMBOL TABLE OF MODULE:  LCD_P51USB (LCD_P51USB)
 
   VALUE           TYPE          NAME
   ----------------------------------
 
-  -------         MODULE        HELLOWORLD
+  -------         MODULE        LCD_P51USB
   D:00E0H         SYMBOL        ACC
   D:008EH         SYMBOL        AUXR
   D:00A2H         SYMBOL        AUXR1
@@ -59,16 +59,18 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   B:00D8H.7       SYMBOL        CF
   D:00F9H         SYMBOL        CH
   D:008FH         SYMBOL        CKCON0
-BL51 BANKED LINKER/LOCATER V6.22                                                      03/15/2014  16:15:17  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/26/2013  18:19:43  PAGE 2
 
 
   D:00AFH         SYMBOL        CKCON1
   D:0085H         SYMBOL        CKSEL
   D:00E9H         SYMBOL        CL
   D:00D9H         SYMBOL        CMOD
+  N:0043H         SYMBOL        COUNT
   B:00C8H.0       SYMBOL        CP_RL2
   B:00D8H.6       SYMBOL        CR
   B:00C8H.1       SYMBOL        C_T2
+  N:0041H         SYMBOL        DADO
   D:0083H         SYMBOL        DPH
   D:0082H         SYMBOL        DPL
   B:00A8H.7       SYMBOL        EA
@@ -91,10 +93,14 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   B:00C8H.6       SYMBOL        EXF2
   D:00D1H         SYMBOL        FCON
   B:0098H.7       SYMBOL        FE_SM0
+  C:208DH         SYMBOL        FIM
+  C:20E8H         SYMBOL        FIM_LCD_STRING
+  C:20E9H         SYMBOL        FRASE1
   B:0088H.1       SYMBOL        IE0_
   B:0088H.3       SYMBOL        IE1_
   D:00A8H         SYMBOL        IEN0
   D:00B1H         SYMBOL        IEN1
+  N:0042H         SYMBOL        INST
   D:00B7H         SYMBOL        IPH0
   D:00B3H         SYMBOL        IPH1
   D:00B8H         SYMBOL        IPL0
@@ -104,9 +110,18 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   D:009DH         SYMBOL        KBE
   D:009EH         SYMBOL        KBF
   D:009CH         SYMBOL        KBLS
-  B:0090H.4       SYMBOL        LED3
+  C:20B2H         SYMBOL        LCD_BUSY
+  C:20B8H         SYMBOL        LCD_BUSY_1
+  C:20C1H         SYMBOL        LCD_BUSY_2
+  C:20D0H         SYMBOL        LCD_DADO
+  C:208FH         SYMBOL        LCD_INI
+  C:20C4H         SYMBOL        LCD_INST
+  C:20DCH         SYMBOL        LCD_STRING
   D:00F1H         SYMBOL        LEDCON
-  C:2003H         SYMBOL        MAIN
+  C:207BH         SYMBOL        MAIN
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/26/2013  18:19:43  PAGE 3
+
+
   D:0080H         SYMBOL        P0
   B:0080H.0       SYMBOL        P0_0
   B:0080H.1       SYMBOL        P0_1
@@ -119,9 +134,6 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   D:0090H         SYMBOL        P1
   B:0090H.0       SYMBOL        P1_0
   B:0090H.1       SYMBOL        P1_1
-BL51 BANKED LINKER/LOCATER V6.22                                                      03/15/2014  16:15:17  PAGE 3
-
-
   B:0090H.2       SYMBOL        P1_2
   B:0090H.3       SYMBOL        P1_3
   B:0090H.4       SYMBOL        P1_4
@@ -167,6 +179,9 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   B:0098H.4       SYMBOL        REN
   B:0098H.0       SYMBOL        RI
   D:00A9H         SYMBOL        SADDR
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/26/2013  18:19:43  PAGE 4
+
+
   D:00B9H         SYMBOL        SADEN
   D:0099H         SYMBOL        SBUF
   D:0098H         SYMBOL        SCON
@@ -179,11 +194,7 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   D:0096H         SYMBOL        SSADR
   D:0093H         SYMBOL        SSCON
   D:0094H         SYMBOL        SSCS
-BL51 BANKED LINKER/LOCATER V6.22                                                      03/15/2014  16:15:17  PAGE 4
-
-
   D:0095H         SYMBOL        SSDAT
-  B:00B0H.2       SYMBOL        SW1
   D:00C8H         SYMBOL        T2CON
   D:00C9H         SYMBOL        T2MOD
   B:0098H.3       SYMBOL        TB8
@@ -200,7 +211,6 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   D:008BH         SYMBOL        TL1
   D:00CCH         SYMBOL        TL2
   D:0089H         SYMBOL        TMOD
-  C:2008H         SYMBOL        TOGGLE
   B:0088H.4       SYMBOL        TR0
   B:0088H.6       SYMBOL        TR1
   B:00C8H.2       SYMBOL        TR2
@@ -223,16 +233,64 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   D:00BDH         SYMBOL        USBINT
   D:00A7H         SYMBOL        WDTPRG
   D:00A6H         SYMBOL        WDTRST
-  C:2000H         LINE#         13
-  C:2003H         LINE#         16
-  C:2006H         LINE#         17
-  C:2008H         LINE#         19
-  C:200AH         LINE#         20
-  -------         ENDMOD        HELLOWORLD
+  C:2000H         LINE#         20
+  C:207BH         LINE#         28
+  C:207DH         LINE#         30
+  C:2080H         LINE#         32
+  C:2082H         LINE#         33
+  C:2084H         LINE#         34
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/26/2013  18:19:43  PAGE 5
 
-******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 000CH BYTE ( 0%) *
-******************************************************************************
 
-Program Size: data=8.0 xdata=0 code=8204
+  C:2086H         LINE#         36
+  C:2088H         LINE#         38
+  C:208BH         LINE#         39
+  C:208DH         LINE#         42
+  C:208FH         LINE#         53
+  C:2092H         LINE#         54
+  C:2094H         LINE#         55
+  C:2096H         LINE#         56
+  C:2098H         LINE#         59
+  C:209BH         LINE#         60
+  C:209DH         LINE#         62
+  C:20A0H         LINE#         63
+  C:20A2H         LINE#         65
+  C:20A5H         LINE#         66
+  C:20A7H         LINE#         68
+  C:20AAH         LINE#         69
+  C:20ACH         LINE#         71
+  C:20AFH         LINE#         72
+  C:20B1H         LINE#         74
+  C:20B2H         LINE#         81
+  C:20B4H         LINE#         82
+  C:20B6H         LINE#         83
+  C:20B8H         LINE#         85
+  C:20BAH         LINE#         86
+  C:20BDH         LINE#         87
+  C:20BFH         LINE#         88
+  C:20C1H         LINE#         90
+  C:20C3H         LINE#         91
+  C:20C4H         LINE#         98
+  C:20C6H         LINE#         99
+  C:20C8H         LINE#         100
+  C:20CAH         LINE#         101
+  C:20CDH         LINE#         102
+  C:20CFH         LINE#         103
+  C:20D0H         LINE#         110
+  C:20D2H         LINE#         111
+  C:20D4H         LINE#         112
+  C:20D6H         LINE#         113
+  C:20D9H         LINE#         114
+  C:20DBH         LINE#         115
+  C:20DCH         LINE#         123
+  C:20DEH         LINE#         124
+  C:20DFH         LINE#         125
+  C:20E1H         LINE#         126
+  C:20E3H         LINE#         127
+  C:20E5H         LINE#         128
+  C:20E6H         LINE#         129
+  C:20E8H         LINE#         131
+  -------         ENDMOD        LCD_P51USB
+
+Program Size: data=8.0 xdata=0 code=8442
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

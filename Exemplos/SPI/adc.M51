@@ -1,15 +1,15 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        03/15/2014  16:15:17  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        06/25/2013  22:43:54  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
-C:\KEIL\C51\BIN\BL51.EXE helloworld.obj TO helloworld RAMSIZE (256)
+C:\KEIL\C51\BIN\BL51.EXE adc.obj TO adc RAMSIZE (256)
 
 
 INPUT MODULES INCLUDED:
-  helloworld.obj (HELLOWORLD)
+  adc.obj (ADC)
 
 
-LINK MAP OF MODULE:  helloworld (HELLOWORLD)
+LINK MAP OF MODULE:  adc (ADC)
 
 
             TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
@@ -19,17 +19,18 @@ LINK MAP OF MODULE:  helloworld (HELLOWORLD)
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
-            CODE    0000H     200CH     ABSOLUTE     
+            CODE    0000H     20C7H     ABSOLUTE     
 
 
 
-SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
+SYMBOL TABLE OF MODULE:  adc (ADC)
 
   VALUE           TYPE          NAME
   ----------------------------------
 
-  -------         MODULE        HELLOWORLD
+  -------         MODULE        ADC
   D:00E0H         SYMBOL        ACC
+  C:20A0H         SYMBOL        ADC_SAMPLE
   D:008EH         SYMBOL        AUXR
   D:00A2H         SYMBOL        AUXR1
   D:00F0H         SYMBOL        B
@@ -58,10 +59,10 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   D:00D8H         SYMBOL        CCON
   B:00D8H.7       SYMBOL        CF
   D:00F9H         SYMBOL        CH
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/25/2013  22:43:54  PAGE 2
+
+
   D:008FH         SYMBOL        CKCON0
-BL51 BANKED LINKER/LOCATER V6.22                                                      03/15/2014  16:15:17  PAGE 2
-
-
   D:00AFH         SYMBOL        CKCON1
   D:0085H         SYMBOL        CKSEL
   D:00E9H         SYMBOL        CL
@@ -69,6 +70,7 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   B:00C8H.0       SYMBOL        CP_RL2
   B:00D8H.6       SYMBOL        CR
   B:00C8H.1       SYMBOL        C_T2
+  C:20C6H         SYMBOL        DISPLAY
   D:0083H         SYMBOL        DPH
   D:0082H         SYMBOL        DPL
   B:00A8H.7       SYMBOL        EA
@@ -95,6 +97,7 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   B:0088H.3       SYMBOL        IE1_
   D:00A8H         SYMBOL        IEN0
   D:00B1H         SYMBOL        IEN1
+  C:207BH         SYMBOL        INI
   D:00B7H         SYMBOL        IPH0
   D:00B3H         SYMBOL        IPH1
   D:00B8H         SYMBOL        IPL0
@@ -104,9 +107,9 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   D:009DH         SYMBOL        KBE
   D:009EH         SYMBOL        KBF
   D:009CH         SYMBOL        KBLS
-  B:0090H.4       SYMBOL        LED3
   D:00F1H         SYMBOL        LEDCON
-  C:2003H         SYMBOL        MAIN
+  C:2094H         SYMBOL        LOOP
+  C:208CH         SYMBOL        MAIN
   D:0080H         SYMBOL        P0
   B:0080H.0       SYMBOL        P0_0
   B:0080H.1       SYMBOL        P0_1
@@ -116,12 +119,12 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   B:0080H.5       SYMBOL        P0_5
   B:0080H.6       SYMBOL        P0_6
   B:0080H.7       SYMBOL        P0_7
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/25/2013  22:43:54  PAGE 3
+
+
   D:0090H         SYMBOL        P1
   B:0090H.0       SYMBOL        P1_0
   B:0090H.1       SYMBOL        P1_1
-BL51 BANKED LINKER/LOCATER V6.22                                                      03/15/2014  16:15:17  PAGE 3
-
-
   B:0090H.2       SYMBOL        P1_2
   B:0090H.3       SYMBOL        P1_3
   B:0090H.4       SYMBOL        P1_4
@@ -168,22 +171,24 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   B:0098H.0       SYMBOL        RI
   D:00A9H         SYMBOL        SADDR
   D:00B9H         SYMBOL        SADEN
+  N:0040H         SYMBOL        SAMPLE0
+  N:0041H         SYMBOL        SAMPLE1
+  N:0042H         SYMBOL        SAMPLE2
   D:0099H         SYMBOL        SBUF
   D:0098H         SYMBOL        SCON
   B:0098H.6       SYMBOL        SM1
   B:0098H.5       SYMBOL        SM2
   D:0081H         SYMBOL        SP
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/25/2013  22:43:54  PAGE 4
+
+
   D:00C3H         SYMBOL        SPCON
   D:00C5H         SYMBOL        SPDAT
   D:00C4H         SYMBOL        SPSTA
   D:0096H         SYMBOL        SSADR
   D:0093H         SYMBOL        SSCON
   D:0094H         SYMBOL        SSCS
-BL51 BANKED LINKER/LOCATER V6.22                                                      03/15/2014  16:15:17  PAGE 4
-
-
   D:0095H         SYMBOL        SSDAT
-  B:00B0H.2       SYMBOL        SW1
   D:00C8H         SYMBOL        T2CON
   D:00C9H         SYMBOL        T2MOD
   B:0098H.3       SYMBOL        TB8
@@ -200,10 +205,10 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   D:008BH         SYMBOL        TL1
   D:00CCH         SYMBOL        TL2
   D:0089H         SYMBOL        TMOD
-  C:2008H         SYMBOL        TOGGLE
   B:0088H.4       SYMBOL        TR0
   B:0088H.6       SYMBOL        TR1
   B:00C8H.2       SYMBOL        TR2
+  C:20BFH         SYMBOL        TX
   D:00E3H         SYMBOL        UBYCTHX
   D:00E2H         SYMBOL        UBYCTLX
   D:00D7H         SYMBOL        UDPADDH
@@ -223,16 +228,45 @@ SYMBOL TABLE OF MODULE:  helloworld (HELLOWORLD)
   D:00BDH         SYMBOL        USBINT
   D:00A7H         SYMBOL        WDTPRG
   D:00A6H         SYMBOL        WDTRST
-  C:2000H         LINE#         13
-  C:2003H         LINE#         16
-  C:2006H         LINE#         17
-  C:2008H         LINE#         19
-  C:200AH         LINE#         20
-  -------         ENDMOD        HELLOWORLD
+  C:2000H         LINE#         26
+  C:2023H         LINE#         29
+  C:204BH         LINE#         32
+  C:207BH         LINE#         40
+  C:207EH         LINE#         41
+  C:2081H         LINE#         47
+  C:2084H         LINE#         58
+  C:2087H         LINE#         59
+  C:208AH         LINE#         61
+  C:208CH         LINE#         66
+  C:208EH         LINE#         67
+BL51 BANKED LINKER/LOCATER V6.22                                                      06/25/2013  22:43:54  PAGE 5
 
-******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 000CH BYTE ( 0%) *
-******************************************************************************
 
-Program Size: data=8.0 xdata=0 code=8204
+  C:2090H         LINE#         68
+  C:2092H         LINE#         70
+  C:2094H         LINE#         74
+  C:2096H         LINE#         75
+  C:2099H         LINE#         77
+  C:209CH         LINE#         79
+  C:209EH         LINE#         83
+  C:20A0H         LINE#         95
+  C:20A2H         LINE#         98
+  C:20A4H         LINE#         99
+  C:20A7H         LINE#         101
+  C:20AAH         LINE#         104
+  C:20ADH         LINE#         105
+  C:20B0H         LINE#         107
+  C:20B3H         LINE#         110
+  C:20B6H         LINE#         111
+  C:20B9H         LINE#         113
+  C:20BCH         LINE#         115
+  C:20BEH         LINE#         117
+  C:20BFH         LINE#         119
+  C:20C1H         LINE#         120
+  C:20C3H         LINE#         121
+  C:20C5H         LINE#         122
+  C:20C6H         LINE#         132
+  -------         ENDMOD        ADC
+
+Program Size: data=8.0 xdata=0 code=8391
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

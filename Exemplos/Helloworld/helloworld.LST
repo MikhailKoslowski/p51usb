@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/03/2014 17:10:19 PAGE     1
+A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/15/2014 16:15:17 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.02b
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
   0081          +1    56     sbit P0_1 = P0 ^ 1 ;
   0080          +1    57     sbit P0_0 = P0 ^ 0 ;
                 +1    58     
-A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/03/2014 17:10:19 PAGE     2
+A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/15/2014 16:15:17 PAGE     2
 
   0090          +1    59     sfr P1 = 0x90 ;        /* Sfr ( P1, bit addressable)*/
                 +1    60     
@@ -133,7 +133,7 @@ LOC  OBJ            LINE     SOURCE
   0089          +1   122     sbit IE0_ = TCON ^ 1 ;
   0088          +1   123     sbit IT0 = TCON ^ 0 ;
                 +1   124                                 
-A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/03/2014 17:10:19 PAGE     3
+A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/15/2014 16:15:17 PAGE     3
 
   00CF          +1   125     sbit TF2 = T2CON ^ 7 ;
   00CE          +1   126     sbit EXF2 = T2CON ^ 6 ;
@@ -201,7 +201,7 @@ LOC  OBJ            LINE     SOURCE
                 +1   188     
                 +1   189     
   00A8          +1   190     sfr IEN0 = 0xA8 ;       /* Sfr ( IEN0,  bit addressable                 */
-A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/03/2014 17:10:19 PAGE     4
+A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/15/2014 16:15:17 PAGE     4
 
   00B1          +1   191     sfr IEN1 = 0xB1 ;
   00B8          +1   192     sfr IPL0 = 0xB8 ;       /* Sfr ( IPL0, bit addressable          */
@@ -269,7 +269,7 @@ LOC  OBJ            LINE     SOURCE
   00D6          +1   254     sfr UDPADDL = 0xD6 ;
   00D7          +1   255     sfr UDPADDH = 0xD7 ;
   00BA          +1   256     sfr UFNUML = 0xBA ;
-A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/03/2014 17:10:19 PAGE     5
+A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/15/2014 16:15:17 PAGE     5
 
   00BB          +1   257     sfr UFNUMH = 0xBB ;
                 +1   258                                     
@@ -302,16 +302,17 @@ LOC  OBJ            LINE     SOURCE
   0094               285     LED3 EQU P1.4
   00B2               286     SW1 EQU P3.2
                      287     
-0000                 288     ORG 0x00
-0000 020003          289     LJMP main
+2000                 288     ORG 0x2000
+2000 022003          289     LJMP main
                      290     
-0003                 291     main:
-0003 30B200          292             JNB SW1, toggle
-0006                 293     toggle:
-0006 B294            294             CPL LED3
-0008 80F9            295             SJMP main
-                     296     END
-A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/03/2014 17:10:19 PAGE     6
+2003                 291     main:
+2003 30B202          292             JNB SW1, toggle
+2006 80FB            293             SJMP main
+2008                 294     toggle:
+2008 B294            295             CPL LED3
+200A 80F7            296             SJMP main
+                     297     END
+A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/15/2014 16:15:17 PAGE     6
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -379,7 +380,7 @@ EXF2 . . . . . . .  B ADDR   00C8H.6 A
 FCON . . . . . . .  D ADDR   00D1H   A   
 FE_SM0 . . . . . .  B ADDR   0098H.7 A   
 IE0_ . . . . . . .  B ADDR   0088H.1 A   
-A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/03/2014 17:10:19 PAGE     7
+A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/15/2014 16:15:17 PAGE     7
 
 IE1_ . . . . . . .  B ADDR   0088H.3 A   
 IEN0 . . . . . . .  D ADDR   00A8H   A   
@@ -395,7 +396,7 @@ KBF. . . . . . . .  D ADDR   009EH   A
 KBLS . . . . . . .  D ADDR   009CH   A   
 LED3 . . . . . . .  B ADDR   0090H.4 A   
 LEDCON . . . . . .  D ADDR   00F1H   A   
-MAIN . . . . . . .  C ADDR   0003H   A   
+MAIN . . . . . . .  C ADDR   2003H   A   
 P0 . . . . . . . .  D ADDR   0080H   A   
 P0_0 . . . . . . .  B ADDR   0080H.0 A   
 P0_1 . . . . . . .  B ADDR   0080H.1 A   
@@ -447,7 +448,7 @@ PTIL . . . . . . .  B ADDR   00B8H.3 A
 PX0L . . . . . . .  B ADDR   00B8H.0 A   
 PXIL . . . . . . .  B ADDR   00B8H.2 A   
 RB8. . . . . . . .  B ADDR   0098H.2 A   
-A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/03/2014 17:10:19 PAGE     8
+A51 MACRO ASSEMBLER  HELLOWORLD                                                           03/15/2014 16:15:17 PAGE     8
 
 RCAP2H . . . . . .  D ADDR   00CBH   A   
 RCAP2L . . . . . .  D ADDR   00CAH   A   
@@ -485,7 +486,7 @@ TL0. . . . . . . .  D ADDR   008AH   A
 TL1. . . . . . . .  D ADDR   008BH   A   
 TL2. . . . . . . .  D ADDR   00CCH   A   
 TMOD . . . . . . .  D ADDR   0089H   A   
-TOGGLE . . . . . .  C ADDR   0006H   A   
+TOGGLE . . . . . .  C ADDR   2008H   A   
 TR0. . . . . . . .  B ADDR   0088H.4 A   
 TR1. . . . . . . .  B ADDR   0088H.6 A   
 TR2. . . . . . . .  B ADDR   00C8H.2 A   

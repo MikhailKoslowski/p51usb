@@ -1,0 +1,817 @@
+A51 MACRO ASSEMBLER  ADC                                                                  06/25/2013 22:43:53 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02b
+OBJECT MODULE PLACED IN adc.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE adc.a51 NOMOD51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;===============================================================================
+                       2     ;AUTOR: Mikhail A. Koslowski DATA: 23/05/11 ARQUIVO: adc.a51
+                       3     ;CPU: AT89C5131A-M clk: 24MHz HW: PB51usb
+                       4     ;IDE: Keil uVision V4 ASSEMBLER: A51.EXE
+                       5     ;===============================================================================
+                       6     ; Configura a interface SPI do AT89C5131A-M.
+                       7     ; Solicita amostragem de sinal do ADC (MCP3202), lê e armazena os valores.
+                       8     ;===============================================================================
+                       9     
+                      10     ;------------------------------------------------------------------------------
+                      11     ; Includes
+                      12     ;------------------------------------------------------------------------------
+                      13     ;#include "..\P51USBv1sem2013.h"
+                +1    14     
+                +1    15     
+                +1    16     
+                +1    17     
+                +1    18     
+                +1    19     
+                +1    20     
+                +1    21     
+                +1    22     
+                +1    23     
+                +1    24     
+                +1    25     ;#include <at89c5131.h>
+                +2    26     
+                +2    27     
+                +2    28     
+                +2    29     
+                +2    30     
+                +2    31     
+                +2    32     
+                +2    33     
+                +2    34     
+                +2    35     
+                +2    36     
+                +2    37     
+                +2    38     
+                +2    39     
+                +2    40     
+                +2    41     
+                +2    42     
+                +2    43     
+                +2    44     
+                +2    45     
+                +2    46     
+                +2    47     
+                +2    48     
+                +2    49     
+                +2    50     
+                +2    51     
+                +2    52     
+                +2    53     
+                +2    54     
+  00E0          +2    55     sfr ACC = 0xE0 ;        /* Sfr ( ACC, bit addressable)*/
+  00F0          +2    56     sfr B = 0xF0 ;        /* Sfr ( B,   bit addressable)*/
+  00D0          +2    57     sfr PSW = 0xD0 ;        /* Sfr ( PSW, bit addressable)*/
+  0081          +2    58     sfr SP = 0x81 ;
+A51 MACRO ASSEMBLER  ADC                                                                  06/25/2013 22:43:53 PAGE     2
+
+  0082          +2    59     sfr DPL = 0x82 ;
+  0083          +2    60     sfr DPH = 0x83 ;
+                +2    61     
+                +2    62     
+                +2    63     
+                +2    64     
+                +2    65     
+                +2    66     
+  0080          +2    67     sfr P0 = 0x80 ;        /* Sfr ( P0, bit addressable)*/
+                +2    68     
+  0087          +2    69     sbit P0_7 = P0 ^ 7 ;
+  0086          +2    70     sbit P0_6 = P0 ^ 6 ;
+  0085          +2    71     sbit P0_5 = P0 ^ 5 ;
+  0084          +2    72     sbit P0_4 = P0 ^ 4 ;
+  0083          +2    73     sbit P0_3 = P0 ^ 3 ;
+  0082          +2    74     sbit P0_2 = P0 ^ 2 ;
+  0081          +2    75     sbit P0_1 = P0 ^ 1 ;
+  0080          +2    76     sbit P0_0 = P0 ^ 0 ;
+                +2    77     
+  0090          +2    78     sfr P1 = 0x90 ;        /* Sfr ( P1, bit addressable)*/
+                +2    79     
+  0097          +2    80     sbit P1_7 = P1 ^ 7 ;
+  0096          +2    81     sbit P1_6 = P1 ^ 6 ;
+  0095          +2    82     sbit P1_5 = P1 ^ 5 ;
+  0094          +2    83     sbit P1_4 = P1 ^ 4 ;
+  0093          +2    84     sbit P1_3 = P1 ^ 3 ;
+  0092          +2    85     sbit P1_2 = P1 ^ 2 ;
+  0091          +2    86     sbit P1_1 = P1 ^ 1 ;
+  0090          +2    87     sbit P1_0 = P1 ^ 0 ;
+                +2    88     
+  00A0          +2    89     sfr P2 = 0xA0 ;        /* Sfr ( P2, bit addressable)*/
+                +2    90     
+  00A7          +2    91     sbit P2_7 = P2 ^ 7 ;
+  00A6          +2    92     sbit P2_6 = P2 ^ 6 ;
+  00A5          +2    93     sbit P2_5 = P2 ^ 5 ;
+  00A4          +2    94     sbit P2_4 = P2 ^ 4 ;
+  00A3          +2    95     sbit P2_3 = P2 ^ 3 ;
+  00A2          +2    96     sbit P2_2 = P2 ^ 2 ;
+  00A1          +2    97     sbit P2_1 = P2 ^ 1 ;
+  00A0          +2    98     sbit P2_0 = P2 ^ 0 ;
+                +2    99     
+  00B0          +2   100     sfr P3 = 0xB0 ;        /* Sfr ( P3, bit addressable)*/
+                +2   101     
+  00B7          +2   102     sbit P3_7 = P3 ^ 7 ;
+  00B6          +2   103     sbit P3_6 = P3 ^ 6 ;
+  00B5          +2   104     sbit P3_5 = P3 ^ 5 ;
+  00B4          +2   105     sbit P3_4 = P3 ^ 4 ;
+  00B3          +2   106     sbit P3_3 = P3 ^ 3 ;
+  00B2          +2   107     sbit P3_2 = P3 ^ 2 ;
+  00B1          +2   108     sbit P3_1 = P3 ^ 1 ;
+  00B0          +2   109     sbit P3_0 = P3 ^ 0 ;
+                +2   110     
+  00C0          +2   111     sfr P4 = 0xC0 ;        /* Sfr ( P4, bit addressable)*/
+                +2   112     
+  00C1          +2   113     sbit P4_1 = P4 ^ 1 ;
+  00C0          +2   114     sbit P4_0 = P4 ^ 0 ;
+                +2   115     
+                +2   116     
+                +2   117     
+                +2   118     
+  008C          +2   119     sfr TH0 = 0x8C ; 
+  008A          +2   120     sfr TL0 = 0x8A ;
+  008D          +2   121     sfr TH1 = 0x8D ;
+  008B          +2   122     sfr TL1 = 0x8B ;
+  00CD          +2   123     sfr TH2 = 0xCD ;
+  00CC          +2   124     sfr TL2 = 0xCC ;
+A51 MACRO ASSEMBLER  ADC                                                                  06/25/2013 22:43:53 PAGE     3
+
+  0088          +2   125     sfr TCON = 0x88 ;        /* Sfr ( TCON,  bit addressable)*/
+  0089          +2   126     sfr TMOD = 0x89 ;
+  00C8          +2   127     sfr T2CON = 0xC8 ;        /* Sfr ( T2CON, bit addressable)*/
+  00C9          +2   128     sfr T2MOD = 0xC9 ;
+  00CB          +2   129     sfr RCAP2H = 0xCB ;
+  00CA          +2   130     sfr RCAP2L = 0xCA ;
+  00A6          +2   131     sfr WDTRST = 0xA6 ;
+  00A7          +2   132     sfr WDTPRG = 0xA7 ;
+                +2   133     
+                +2   134                                 
+  008F          +2   135     sbit TF1 = TCON ^ 7 ;
+  008E          +2   136     sbit TR1 = TCON ^ 6 ;
+  008D          +2   137     sbit TF0 = TCON ^ 5 ;
+  008C          +2   138     sbit TR0 = TCON ^ 4 ;
+  008B          +2   139     sbit IE1_ = TCON ^ 3 ;
+  008A          +2   140     sbit IT1 = TCON ^ 2 ;
+  0089          +2   141     sbit IE0_ = TCON ^ 1 ;
+  0088          +2   142     sbit IT0 = TCON ^ 0 ;
+                +2   143                                 
+  00CF          +2   144     sbit TF2 = T2CON ^ 7 ;
+  00CE          +2   145     sbit EXF2 = T2CON ^ 6 ;
+  00CD          +2   146     sbit RCLK = T2CON ^ 5 ;
+  00CC          +2   147     sbit TCLK = T2CON ^ 4 ;
+  00CB          +2   148     sbit EXEN2 = T2CON ^ 3 ;
+  00CA          +2   149     sbit TR2 = T2CON ^ 2 ;
+  00C9          +2   150     sbit C_T2 = T2CON ^ 1 ;
+  00C8          +2   151     sbit CP_RL2 = T2CON ^ 0 ;
+                +2   152     
+                +2   153     
+                +2   154     
+                +2   155     
+  0098          +2   156     sfr SCON = 0x98 ;
+  0099          +2   157     sfr SBUF = 0x99 ;
+  00B9          +2   158     sfr SADEN = 0xB9 ;
+  00A9          +2   159     sfr SADDR = 0xA9 ;
+                +2   160     
+  009F          +2   161     sbit FE_SM0 = SCON ^ 7 ;
+  009E          +2   162     sbit SM1 = SCON ^ 6 ;
+  009D          +2   163     sbit SM2 = SCON ^ 5 ;
+  009C          +2   164     sbit REN = SCON ^ 4 ;
+  009B          +2   165     sbit TB8 = SCON ^ 3 ;
+  009A          +2   166     sbit RB8 = SCON ^ 2 ;
+  0099          +2   167     sbit TI = SCON ^ 1 ;
+  0098          +2   168     sbit RI = SCON ^ 0 ;
+                +2   169     
+                +2   170     
+                +2   171     
+  009A          +2   172     sfr BRL = 0x9A ;
+  009B          +2   173     sfr BDRCON = 0x9B ;
+                +2   174     
+                +2   175     
+                +2   176     
+  00D8          +2   177     sfr CCON = 0xD8 ;      /* Sfr ( CCON, bit addressable)*/
+  00D9          +2   178     sfr CMOD = 0xD9 ;
+  00E9          +2   179     sfr CL = 0xE9 ;
+  00F9          +2   180     sfr CH = 0xF9 ;
+  00DA          +2   181     sfr CCAPM0 = 0xDA ;
+  00DB          +2   182     sfr CCAPM1 = 0xDB ;
+  00DC          +2   183     sfr CCAPM2 = 0xDC ;
+  00DD          +2   184     sfr CCAPM3 = 0xDD ;
+  00DE          +2   185     sfr CCAPM4 = 0xDE ;
+  00FA          +2   186     sfr CCAP0H = 0xFA ;
+  00FB          +2   187     sfr CCAP1H = 0xFB ;
+  00FC          +2   188     sfr CCAP2H = 0xFC ;
+  00FD          +2   189     sfr CCAP3H = 0xFD ;
+  00FE          +2   190     sfr CCAP4H = 0xFE ;
+A51 MACRO ASSEMBLER  ADC                                                                  06/25/2013 22:43:53 PAGE     4
+
+  00EA          +2   191     sfr CCAP0L = 0xEA ;
+  00EB          +2   192     sfr CCAP1L = 0xEB ;
+  00EC          +2   193     sfr CCAP2L = 0xEC ;
+  00ED          +2   194     sfr CCAP3L = 0xED ;
+  00EE          +2   195     sfr CCAP4L = 0xEE ;
+                +2   196     
+                +2   197                                  
+  00DF          +2   198     sbit CF = CCON ^ 7 ;
+  00DE          +2   199     sbit CR = CCON ^ 6 ;
+  00DC          +2   200     sbit CCF4 = CCON ^ 4 ;
+  00DB          +2   201     sbit CCF3 = CCON ^ 3 ;
+  00DA          +2   202     sbit CCF2 = CCON ^ 2 ;
+  00D9          +2   203     sbit CCF1 = CCON ^ 1 ;
+  00D8          +2   204     sbit CCF0 = CCON ^ 0 ;
+                +2   205     
+                +2   206     
+                +2   207     
+                +2   208     
+  00A8          +2   209     sfr IEN0 = 0xA8 ;       /* Sfr ( IEN0,  bit addressable                 */
+  00B1          +2   210     sfr IEN1 = 0xB1 ;
+  00B8          +2   211     sfr IPL0 = 0xB8 ;       /* Sfr ( IPL0, bit addressable          */
+  00B7          +2   212     sfr IPH0 = 0xB7 ;
+  00B2          +2   213     sfr IPL1 = 0xB2 ;
+  00B3          +2   214     sfr IPH1 = 0xB3 ;
+                +2   215     
+                +2   216                                  
+  00AF          +2   217     sbit EA = IEN0 ^ 7 ;
+  00AE          +2   218     sbit EC = IEN0 ^ 6 ;
+  00AD          +2   219     sbit ET2 = IEN0 ^ 5 ;
+  00AC          +2   220     sbit ES = IEN0 ^ 4 ;
+  00AB          +2   221     sbit ET1 = IEN0 ^ 3 ;
+  00AA          +2   222     sbit EX1 = IEN0 ^ 2 ;
+  00A9          +2   223     sbit ET0 = IEN0 ^ 1 ;
+  00A8          +2   224     sbit EX0 = IEN0 ^ 0 ;
+                +2   225                                  
+  00BE          +2   226     sbit PPCL = IPL0 ^ 6 ;
+  00BD          +2   227     sbit PT2L = IPL0 ^ 5 ;
+  00BC          +2   228     sbit PSL = IPL0 ^ 4 ;
+  00BB          +2   229     sbit PTIL = IPL0 ^ 3 ;
+  00BA          +2   230     sbit PXIL = IPL0 ^ 2 ;
+  00B9          +2   231     sbit PT0L = IPL0 ^ 1 ;
+  00B8          +2   232     sbit PX0L = IPL0 ^ 0 ;
+                +2   233     
+                +2   234     
+                +2   235     
+  00A3          +2   236     sfr PLLCON = 0xA3 ;
+  00A4          +2   237     sfr PLLDIV = 0xA4 ;
+                +2   238     
+                +2   239     
+                +2   240     
+  009E          +2   241     sfr KBF = 0x9E ;
+  009D          +2   242     sfr KBE = 0x9D ;
+  009C          +2   243     sfr KBLS = 0x9C ;
+                +2   244     
+                +2   245     
+                +2   246     
+  0093          +2   247     sfr SSCON = 0x93 ;
+  0094          +2   248     sfr SSCS = 0x94 ;
+  0095          +2   249     sfr SSDAT = 0x95 ;
+  0096          +2   250     sfr SSADR = 0x96 ;
+                +2   251     
+                +2   252     
+                +2   253     
+  00C3          +2   254     sfr SPCON = 0xC3 ;
+  00C4          +2   255     sfr SPSTA = 0xC4 ;
+  00C5          +2   256     sfr SPDAT = 0xC5 ;
+A51 MACRO ASSEMBLER  ADC                                                                  06/25/2013 22:43:53 PAGE     5
+
+                +2   257     
+                +2   258     
+                +2   259     
+  00BC          +2   260     sfr USBCON = 0xBC ;
+  00C6          +2   261     sfr USBADDR = 0xC6 ;
+  00BD          +2   262     sfr USBINT = 0xBD ;
+  00BE          +2   263     sfr USBIEN = 0xBE ;
+  00C7          +2   264     sfr UEPNUM = 0xC7 ;
+  00D4          +2   265     sfr UEPCONX = 0xD4 ;
+  00CE          +2   266     sfr UEPSTAX = 0xCE ;
+  00D5          +2   267     sfr UEPRST = 0xD5 ;
+  00F8          +2   268     sfr UEPINT = 0xF8 ;         /* Sfr ( UEPINT, bit addressable) */
+  00C2          +2   269     sfr UEPIEN = 0xC2 ;
+  00CF          +2   270     sfr UEPDATX = 0xCF ;
+  00E2          +2   271     sfr UBYCTLX = 0xE2 ;
+  00E3          +2   272     sfr UBYCTHX = 0xE3 ;
+  00D6          +2   273     sfr UDPADDL = 0xD6 ;
+  00D7          +2   274     sfr UDPADDH = 0xD7 ;
+  00BA          +2   275     sfr UFNUML = 0xBA ;
+  00BB          +2   276     sfr UFNUMH = 0xBB ;
+                +2   277                                     
+  00FE          +2   278     sbit EP6INT = UEPINT ^ 6 ;
+  00FD          +2   279     sbit EP5INT = UEPINT ^ 5 ;
+  00FC          +2   280     sbit EP4INT = UEPINT ^ 4 ;
+  00FB          +2   281     sbit EP3INT = UEPINT ^ 3 ;
+  00FA          +2   282     sbit EP2INT = UEPINT ^ 2 ;
+  00F9          +2   283     sbit EP1INT = UEPINT ^ 1 ;
+  00F8          +2   284     sbit EP0INT = UEPINT ^ 0 ;
+                +2   285     
+                +2   286     
+                +2   287     
+  0087          +2   288     sfr PCON = 0x87 ;
+  008E          +2   289     sfr AUXR = 0x8E ;
+  00A2          +2   290     sfr AUXR1 = 0xA2 ;
+  008F          +2   291     sfr CKCON0 = 0x8F ;
+  00AF          +2   292     sfr CKCON1 = 0xAF ;
+  0085          +2   293     sfr CKSEL = 0x85 ;
+  00F1          +2   294     sfr LEDCON = 0xF1 ;
+  00D1          +2   295     sfr FCON = 0xD1 ;
+  00D2          +2   296     sfr EECON = 0xD2 ;
+                +2   297     
+                +2   298     
+                +2   299     
+                +2   300     
+                +1   301     
+                +1   302     
+                +1   303     
+                +1   304     
+                +1   305     
+                +1   306     
+                +1   307     
+                +1   308     
+                +1   309     
+                +1   310     
+                +1   311     
+                +1   312     
+                +1   313     
+                +1   314     
+                +1   315     
+                +1   316     
+                +1   317     
+                +1   318     
+                +1   319     
+                +1   320     
+                +1   321     
+                +1   322     
+A51 MACRO ASSEMBLER  ADC                                                                  06/25/2013 22:43:53 PAGE     6
+
+                +1   323     
+                +1   324     
+                +1   325     
+                +1   326     
+                +1   327     
+                +1   328     
+                +1   329     
+                +1   330     
+                +1   331     
+                +1   332     
+                +1   333     
+                +1   334     
+                +1   335     
+                +1   336     
+                +1   337     
+                +1   338     
+                +1   339     
+                +1   340     
+                +1   341     
+                +1   342     
+                +1   343     
+                +1   344     
+                +1   345     
+                +1   346     
+                +1   347     
+                +1   348     
+                +1   349     
+                +1   350     
+                +1   351     
+                +1   352     
+                +1   353     
+                +1   354     
+                +1   355     
+                +1   356     
+                +1   357     
+                +1   358     
+                +1   359     
+                +1   360     
+                +1   361     
+                +1   362     
+                +1   363     
+                +1   364     
+                +1   365     
+                +1   366     
+                +1   367     
+                +1   368     
+                +1   369     
+                +1   370     
+                +1   371     
+                +1   372     
+                +1   373     
+                +1   374     
+                +1   375     
+                +1   376     
+                +1   377     
+                +1   378     
+                +1   379     
+                +1   380     
+                +1   381     
+                +1   382     
+                +1   383     
+                +1   384     
+                +1   385     
+                +1   386     
+                +1   387     
+                +1   388     
+A51 MACRO ASSEMBLER  ADC                                                                  06/25/2013 22:43:53 PAGE     7
+
+                +1   389     
+                     390     
+                     391     ;#include "spi_adc.h"
+                +1   392     
+                +1   393     
+                +1   394     
+                +1   395     
+                +1   396     
+                +1   397     
+                +1   398     
+                +1   399     
+                +1   400     
+                +1   401     
+                +1   402     
+                +1   403     
+                +1   404     
+                +1   405     
+                +1   406     
+                +1   407     
+                +1   408     
+                +1   409     
+                +1   410     
+                +1   411     
+                +1   412     
+                +1   413     
+                     414     
+                     415     ;------------------------------------------------------------------------------
+                     416     ; Defines
+                     417     ;------------------------------------------------------------------------------
+  0040               418     SAMPLE0 EQU 0x40
+  0041               419     SAMPLE1 EQU 0x41
+  0042               420     SAMPLE2 EQU 0x42
+                     421     
+                     422     ;------------------------------------------------------------------------------
+                     423     ; Int Vector
+                     424     ;------------------------------------------------------------------------------
+2000                 425             ORG 0x2000 ; reset
+2000 02207B          426             LJMP ini
+                     427             
+2023                 428             ORG 0x2023 ; serial placeholder
+2023 32              429             RETI
+                     430     
+204B                 431             ORG     0x204B ; SPI placeholder
+204B 32              432             RETI     ; não iremos utilizar a int da SPI
+                     433     ;------------------------------------------------------------------------------
+                     434     ; Program
+                     435     ;------------------------------------------------------------------------------
+207B                 436             ORG 0x207B ; após o intvec, começa o progama
+207B                 437     ini:; 1 setup
+                     438     
+                     439     ; 1-1 disable ints
+207B 75A800          440             MOV IEN0, #0x00
+207E 75B100          441             MOV IEN1, #0x00
+                     442     
+                     443     ; 1-2 setup peripherals
+                     444     ; 1-2-1 SPI
+                     445             
+                     446             ; SPR = 10, fclk_periph/128
+2081 75C33F          447             MOV SPCON, #00111111b 
+                     448                             ;       ||||||||__      SPR0
+                     449                             ;       |||||||___      SPR1
+                     450                             ;       ||||||____      Phase 1
+                     451                             ;       |||||_____      Polarity 1
+                     452                             ;       ||||______      Master
+                     453                             ;       |||_______      ¬SPI_SS (vamos controlar manualmente os sla
+                             ves)
+A51 MACRO ASSEMBLER  ADC                                                                  06/25/2013 22:43:53 PAGE     8
+
+                     454                             ;       ||________      SPEN (disabled at configuring)
+                     455                             ;       |_________      SPR2
+                     456     
+                     457     ; 1-3 enable ints
+2084 75B100          458             MOV IEN1, #0x00
+2087 75A810          459             MOV     IEN0, #0x10     ; int da serial para o flashmon
+                     460     
+208A D2AF            461             SETB EA
+                     462     
+208C                 463     main: ; 2 main code (loop)
+                     464     
+                     465             ; liga o SPI
+208C E5C3            466             MOV A, SPCON
+208E 4440            467             ORL A, #0x40
+2090 F5C3            468             MOV SPCON, A
+                     469     
+2092 D291            470             SETB P1.1 ; desabilita o ADC, será habilitado novamente na hr da amostragem
+                     471     
+2094                 472     loop:
+                     473     ; 2-1 sample ADC
+2094 740E            474             MOV A, #(0x08 | 0x04 | 0x02)
+2096 1220A0          475             LCALL ADC_SAMPLE
+                     476     ; 2-2 display data
+2099 1220C6          477             LCALL DISPLAY
+                     478     
+209C 80F6            479             JMP loop
+                     480     
+                     481     ;------------------------------------------------------------------------------
+                     482     ; Nunca deverá chegar aqui
+209E 80EC            483             JMP main
+                     484     ;------------------------------------------------------------------------------
+                     485     
+                     486     ;------------------------------------------------------------------------------
+                     487     ; Nome: ADC_SAMPLE
+                     488     ; Descrição: amostra o ADC utilizando a SPI
+                     489     ; Parâmetros:
+                     490     ; Retorna: SAMPLE0, SAMPLE1
+                     491     ; Destrói: A
+                     492     ;------------------------------------------------------------------------------
+20A0                 493     ADC_SAMPLE:
+                     494     
+20A0 C291            495             CLR P1.1;       habilita o ADC
+                     496     
+                     497             ; carrega o buffer de saída com o primeiro byte.
+20A2 F5C5            498             MOV SPDAT, A    ; a transmissão inicia com a carga do SPDAT
+20A4 1220BF          499             LCALL Tx        ; aguarda concluir a operação
+                     500             
+20A7 85C542          501             MOV SAMPLE2, SPDAT ; preciso ler SPDAT para o hw baixar SPIF (Datasheet 5131)
+                     502     
+                     503             ; recarrego com DUMMY
+20AA 75C5AA          504             MOV SPDAT, #0xAA
+20AD 1220BF          505             LCALL Tx
+                     506     
+20B0 85C541          507             MOV SAMPLE1, SPDAT
+                     508     
+                     509             ; recarrego com DUMMY (tanto faz o valor)
+20B3 75C5AA          510             MOV SPDAT, #0xAA
+20B6 1220BF          511             LCALL Tx
+                     512     
+20B9 85C540          513             MOV SAMPLE0, SPDAT ; lê para liberar o SPI
+                     514     
+20BC D291            515             SETB P1.1; desabilita o ADC
+                     516     
+20BE 22              517             RET
+20BF                 518     Tx:
+20BF E5C4            519             MOV A, SPSTA
+A51 MACRO ASSEMBLER  ADC                                                                  06/25/2013 22:43:53 PAGE     9
+
+20C1 5480            520             ANL A, #0x80 ; isola o bit.
+20C3 60FA            521             JZ      tx
+20C5 22              522             RET
+                     523     ;------------------------------------------------------------------------------
+                     524     ; Nome: DISPLAY
+                     525     ; Descrição: Placeholder para a função que irá mostrar o valor.
+                     526     ; Parâmetros:
+                     527     ; Retorna:
+                     528     ; Destrói:
+                     529     ;------------------------------------------------------------------------------
+20C6                 530     DISPLAY:
+                     531             ; não implementado
+20C6 22              532             RET
+                     533     
+                     534     ;------------------------------------------------------------------------------
+                     535     ; Nunca deverá chegar aqui
+                     536     END
+                             ;------------------------------------------------------------------------------
+                             
+                             ;------------------------------------------------------------------------------
+                             ; NOTAS:
+                             ;
+                             ; Frequência mínima de operação:
+                             ; - 10kHz para garantir o valor amostrado pelo ADC
+                             ; - 15,625kHz se utilizarmos o maior divisor possível do clk do MCU
+                             ;
+                             ; Na parte do MCU, os dados são enviados e recebidos usando um mesmo reg!
+                             ; enquanto um bit é shiftado para fora, o outro é shiftado para dentro!
+                             ; 
+                             ; Irá operar em modo master MSTR = 1
+                             ; Sem interrupção, deverá ler SPIF pra saber quando transmitiu
+                             ; depois de transmitido, guarda o que foi recebido, recarrega e baixa o SPIF.
+                             ;
+                             ; Phase e Polarity = 0. (veja os diagramas do datasheet)
+                             ; SPI_SS tem que subir e descer entre duas tramissões de 1byte (segundo MCU)
+                             ; porém, como o slave já "driveou" os dados para a saída (esperando apenas o clk)
+                             ; não vamos fazer essa subida e descida do SS. (seguindo então o datasheet do ADC, figura 6
+                             .2)
+                             ;
+                             ; Vamos usar a configuração single channel 0 do ADC.
+                             ;
+                             ; Seguindo o datasheet do ADC, vamos ter os seguintes ciclos de dados
+                             ; OUT from MCU  | IN to MCU
+                             ; 00000001              | XXXXXXXX      ; master sends START and receive garbage
+                             ; 100XXXXX              | XXX0DDDD      ; master sends config and receive NULL + 4 MSBs
+                             ; XXXXXXXX              | DDDDDDDD      ; master sends garbage and receive 8 LSBs
+                             ;
+                             ; MISO (P1.5) <=> Dout (6)
+                             ; MOSI (P1.7) <=> Din (5)
+                             ; SCK (P1.6) <=> CLK (7)
+                             ; SPI_SS (P1.1) <=> CS (1)
+                             
+                             ; o p1.1 que é o SS do SPI foi utilizado, porém a função "SS" do controlador SPI foi desabi
+                             litada
+                             ; e o pino foi controlado manualmente. Por isso o bind lá no inicio do código (Sbit...).
+                             
+                             ; Cabeçalho padrão para comentário de funções
+                             ;------------------------------------------------------------------------------
+                             ; Nome:
+                             ; Descrição:
+                             ; Parâmetros:
+                             ; Retorna:
+                             ; Destrói:
+                             ;------------------------------------------------------------------------------
+A51 MACRO ASSEMBLER  ADC                                                                  06/25/2013 22:43:53 PAGE    10
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+ADC_SAMPLE . . . .  C ADDR   20A0H   A   
+AUXR . . . . . . .  D ADDR   008EH   A   
+AUXR1. . . . . . .  D ADDR   00A2H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+BDRCON . . . . . .  D ADDR   009BH   A   
+BRL. . . . . . . .  D ADDR   009AH   A   
+CCAP0H . . . . . .  D ADDR   00FAH   A   
+CCAP0L . . . . . .  D ADDR   00EAH   A   
+CCAP1H . . . . . .  D ADDR   00FBH   A   
+CCAP1L . . . . . .  D ADDR   00EBH   A   
+CCAP2H . . . . . .  D ADDR   00FCH   A   
+CCAP2L . . . . . .  D ADDR   00ECH   A   
+CCAP3H . . . . . .  D ADDR   00FDH   A   
+CCAP3L . . . . . .  D ADDR   00EDH   A   
+CCAP4H . . . . . .  D ADDR   00FEH   A   
+CCAP4L . . . . . .  D ADDR   00EEH   A   
+CCAPM0 . . . . . .  D ADDR   00DAH   A   
+CCAPM1 . . . . . .  D ADDR   00DBH   A   
+CCAPM2 . . . . . .  D ADDR   00DCH   A   
+CCAPM3 . . . . . .  D ADDR   00DDH   A   
+CCAPM4 . . . . . .  D ADDR   00DEH   A   
+CCF0 . . . . . . .  B ADDR   00D8H.0 A   
+CCF1 . . . . . . .  B ADDR   00D8H.1 A   
+CCF2 . . . . . . .  B ADDR   00D8H.2 A   
+CCF3 . . . . . . .  B ADDR   00D8H.3 A   
+CCF4 . . . . . . .  B ADDR   00D8H.4 A   
+CCON . . . . . . .  D ADDR   00D8H   A   
+CF . . . . . . . .  B ADDR   00D8H.7 A   
+CH . . . . . . . .  D ADDR   00F9H   A   
+CKCON0 . . . . . .  D ADDR   008FH   A   
+CKCON1 . . . . . .  D ADDR   00AFH   A   
+CKSEL. . . . . . .  D ADDR   0085H   A   
+CL . . . . . . . .  D ADDR   00E9H   A   
+CMOD . . . . . . .  D ADDR   00D9H   A   
+CP_RL2 . . . . . .  B ADDR   00C8H.0 A   
+CR . . . . . . . .  B ADDR   00D8H.6 A   
+C_T2 . . . . . . .  B ADDR   00C8H.1 A   
+DISPLAY. . . . . .  C ADDR   20C6H   A   
+DPH. . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . .  D ADDR   0082H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+EC . . . . . . . .  B ADDR   00A8H.6 A   
+EECON. . . . . . .  D ADDR   00D2H   A   
+EP0INT . . . . . .  B ADDR   00F8H.0 A   
+EP1INT . . . . . .  B ADDR   00F8H.1 A   
+EP2INT . . . . . .  B ADDR   00F8H.2 A   
+EP3INT . . . . . .  B ADDR   00F8H.3 A   
+EP4INT . . . . . .  B ADDR   00F8H.4 A   
+EP5INT . . . . . .  B ADDR   00F8H.5 A   
+EP6INT . . . . . .  B ADDR   00F8H.6 A   
+ES . . . . . . . .  B ADDR   00A8H.4 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . .  B ADDR   00A8H.3 A   
+ET2. . . . . . . .  B ADDR   00A8H.5 A   
+EX0. . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . .  B ADDR   00A8H.2 A   
+EXEN2. . . . . . .  B ADDR   00C8H.3 A   
+EXF2 . . . . . . .  B ADDR   00C8H.6 A   
+FCON . . . . . . .  D ADDR   00D1H   A   
+A51 MACRO ASSEMBLER  ADC                                                                  06/25/2013 22:43:53 PAGE    11
+
+FE_SM0 . . . . . .  B ADDR   0098H.7 A   
+IE0_ . . . . . . .  B ADDR   0088H.1 A   
+IE1_ . . . . . . .  B ADDR   0088H.3 A   
+IEN0 . . . . . . .  D ADDR   00A8H   A   
+IEN1 . . . . . . .  D ADDR   00B1H   A   
+INI. . . . . . . .  C ADDR   207BH   A   
+IPH0 . . . . . . .  D ADDR   00B7H   A   
+IPH1 . . . . . . .  D ADDR   00B3H   A   
+IPL0 . . . . . . .  D ADDR   00B8H   A   
+IPL1 . . . . . . .  D ADDR   00B2H   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+KBE. . . . . . . .  D ADDR   009DH   A   
+KBF. . . . . . . .  D ADDR   009EH   A   
+KBLS . . . . . . .  D ADDR   009CH   A   
+LEDCON . . . . . .  D ADDR   00F1H   A   
+LOOP . . . . . . .  C ADDR   2094H   A   
+MAIN . . . . . . .  C ADDR   208CH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P0_0 . . . . . . .  B ADDR   0080H.0 A   
+P0_1 . . . . . . .  B ADDR   0080H.1 A   
+P0_2 . . . . . . .  B ADDR   0080H.2 A   
+P0_3 . . . . . . .  B ADDR   0080H.3 A   
+P0_4 . . . . . . .  B ADDR   0080H.4 A   
+P0_5 . . . . . . .  B ADDR   0080H.5 A   
+P0_6 . . . . . . .  B ADDR   0080H.6 A   
+P0_7 . . . . . . .  B ADDR   0080H.7 A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P1_0 . . . . . . .  B ADDR   0090H.0 A   
+P1_1 . . . . . . .  B ADDR   0090H.1 A   
+P1_2 . . . . . . .  B ADDR   0090H.2 A   
+P1_3 . . . . . . .  B ADDR   0090H.3 A   
+P1_4 . . . . . . .  B ADDR   0090H.4 A   
+P1_5 . . . . . . .  B ADDR   0090H.5 A   
+P1_6 . . . . . . .  B ADDR   0090H.6 A   
+P1_7 . . . . . . .  B ADDR   0090H.7 A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P2_0 . . . . . . .  B ADDR   00A0H.0 A   
+P2_1 . . . . . . .  B ADDR   00A0H.1 A   
+P2_2 . . . . . . .  B ADDR   00A0H.2 A   
+P2_3 . . . . . . .  B ADDR   00A0H.3 A   
+P2_4 . . . . . . .  B ADDR   00A0H.4 A   
+P2_5 . . . . . . .  B ADDR   00A0H.5 A   
+P2_6 . . . . . . .  B ADDR   00A0H.6 A   
+P2_7 . . . . . . .  B ADDR   00A0H.7 A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+P3_0 . . . . . . .  B ADDR   00B0H.0 A   
+P3_1 . . . . . . .  B ADDR   00B0H.1 A   
+P3_2 . . . . . . .  B ADDR   00B0H.2 A   
+P3_3 . . . . . . .  B ADDR   00B0H.3 A   
+P3_4 . . . . . . .  B ADDR   00B0H.4 A   
+P3_5 . . . . . . .  B ADDR   00B0H.5 A   
+P3_6 . . . . . . .  B ADDR   00B0H.6 A   
+P3_7 . . . . . . .  B ADDR   00B0H.7 A   
+P4 . . . . . . . .  D ADDR   00C0H   A   
+P4_0 . . . . . . .  B ADDR   00C0H.0 A   
+P4_1 . . . . . . .  B ADDR   00C0H.1 A   
+PCON . . . . . . .  D ADDR   0087H   A   
+PLLCON . . . . . .  D ADDR   00A3H   A   
+PLLDIV . . . . . .  D ADDR   00A4H   A   
+PPCL . . . . . . .  B ADDR   00B8H.6 A   
+PSL. . . . . . . .  B ADDR   00B8H.4 A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+PT0L . . . . . . .  B ADDR   00B8H.1 A   
+PT2L . . . . . . .  B ADDR   00B8H.5 A   
+PTIL . . . . . . .  B ADDR   00B8H.3 A   
+A51 MACRO ASSEMBLER  ADC                                                                  06/25/2013 22:43:53 PAGE    12
+
+PX0L . . . . . . .  B ADDR   00B8H.0 A   
+PXIL . . . . . . .  B ADDR   00B8H.2 A   
+RB8. . . . . . . .  B ADDR   0098H.2 A   
+RCAP2H . . . . . .  D ADDR   00CBH   A   
+RCAP2L . . . . . .  D ADDR   00CAH   A   
+RCLK . . . . . . .  B ADDR   00C8H.5 A   
+REN. . . . . . . .  B ADDR   0098H.4 A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+SADDR. . . . . . .  D ADDR   00A9H   A   
+SADEN. . . . . . .  D ADDR   00B9H   A   
+SAMPLE0. . . . . .  N NUMB   0040H   A   
+SAMPLE1. . . . . .  N NUMB   0041H   A   
+SAMPLE2. . . . . .  N NUMB   0042H   A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SM1. . . . . . . .  B ADDR   0098H.6 A   
+SM2. . . . . . . .  B ADDR   0098H.5 A   
+SP . . . . . . . .  D ADDR   0081H   A   
+SPCON. . . . . . .  D ADDR   00C3H   A   
+SPDAT. . . . . . .  D ADDR   00C5H   A   
+SPSTA. . . . . . .  D ADDR   00C4H   A   
+SSADR. . . . . . .  D ADDR   0096H   A   
+SSCON. . . . . . .  D ADDR   0093H   A   
+SSCS . . . . . . .  D ADDR   0094H   A   
+SSDAT. . . . . . .  D ADDR   0095H   A   
+T2CON. . . . . . .  D ADDR   00C8H   A   
+T2MOD. . . . . . .  D ADDR   00C9H   A   
+TB8. . . . . . . .  B ADDR   0098H.3 A   
+TCLK . . . . . . .  B ADDR   00C8H.4 A   
+TCON . . . . . . .  D ADDR   0088H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . .  B ADDR   0088H.7 A   
+TF2. . . . . . . .  B ADDR   00C8H.7 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TH2. . . . . . . .  D ADDR   00CDH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TL2. . . . . . . .  D ADDR   00CCH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+TR2. . . . . . . .  B ADDR   00C8H.2 A   
+TX . . . . . . . .  C ADDR   20BFH   A   
+UBYCTHX. . . . . .  D ADDR   00E3H   A   
+UBYCTLX. . . . . .  D ADDR   00E2H   A   
+UDPADDH. . . . . .  D ADDR   00D7H   A   
+UDPADDL. . . . . .  D ADDR   00D6H   A   
+UEPCONX. . . . . .  D ADDR   00D4H   A   
+UEPDATX. . . . . .  D ADDR   00CFH   A   
+UEPIEN . . . . . .  D ADDR   00C2H   A   
+UEPINT . . . . . .  D ADDR   00F8H   A   
+UEPNUM . . . . . .  D ADDR   00C7H   A   
+UEPRST . . . . . .  D ADDR   00D5H   A   
+UEPSTAX. . . . . .  D ADDR   00CEH   A   
+UFNUMH . . . . . .  D ADDR   00BBH   A   
+UFNUML . . . . . .  D ADDR   00BAH   A   
+USBADDR. . . . . .  D ADDR   00C6H   A   
+USBCON . . . . . .  D ADDR   00BCH   A   
+USBIEN . . . . . .  D ADDR   00BEH   A   
+USBINT . . . . . .  D ADDR   00BDH   A   
+WDTPRG . . . . . .  D ADDR   00A7H   A   
+WDTRST . . . . . .  D ADDR   00A6H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
