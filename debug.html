@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="P51USB : P51USB" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>P51USB</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/MikhailKoslowski/p51usb">View on GitHub</a>
+
+          <h1 id="project_title"><a href="index.html">P51USB</a></h1>
+          <h2 id="project_tagline">Debug com o FlashMon51</h2>
+            
+         <!-- <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/MikhailKoslowski/p51usb/releases/download/HelloWorld/Helloworld.zip">Download deste exemplo em arquivo .zip</a>
+              <p>Download</p>
+          </section> -->
+            
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+<h3>
+<a name="intro" class="anchor" href="#intro"><span class="octicon octicon-link"></span></a>FlashMon51</h3>      
+
+
+		<p>O <a href="www.keil.com/c51/flashmon51.asp">FlashMon51</a> é um monitor par depuração de sistemas microcontrolados compatíveis com o 8051. Ele utiliza a porta serial do computador para estabelecer a conexão entre o uVision e o microcontrolador. Para o caso do AT89C5131A-M e outros microcontroladores que contém memória flash, o FlashMon51 já possui acesso as funções necessárias para gravar o programa do usuário na memória flash.</p>
+
+		<p>Para o kit P51USB, uma pequena modificação no código fonte do FlashMon51 foi necessária a fim de prover um mecanismo onde o usuário possa escolher entre os modos "Bootloader", "Debug" ou executar diretamente o seu programa. O download da versão modificada pode ser feito <a href="paginapessoal.utfpr.edu.br/rubens/microcontroladores/anexos/placa-didatica-p51usb/Monitor.hex/view">aqui</a></p>
+
+		<p>O acesso a estes modos é feito através das chaves "RST", "ISP" e "SW1" presentes no kit. A figura abaixo apresenta a maneira correta de operação das chaves para acessar cada um dos três modos.<p>
+
+		<img src="images\debug\bootmodes.png" alt="">			
+      
+<h3>
+<a name="topicos" class="anchor" href="#topicos"><span class="octicon octicon-link"></span></a>Tópicos:</h3>
+    <a href="#requisitos">Requisitos</a></br>
+    <a href="#flashmon">Gravação do FlashMon51</a></br>
+    <a href="#debug">Colocando a placa em modo Debug</a></br>
+    <a href="#load">Carga do programa via FlashMon51</a>
+    
+      
+<h3>
+<a name="requisitos" class="anchor" href="#requisitos"><span class="octicon octicon-link"></span></a>Requisitos</h3>
+
+<p>
+<dl>
+    <dt>Hardware:</dt>
+        <dd>
+            <ul>
+            <li>Cabo serial ou Conversor USB-Serial</li>
+            </ul>
+        </dd>
+    <dt>Software:</dt>
+        <dd>
+            <ul>
+            <li><a href="paginapessoal.utfpr.edu.br/rubens/microcontroladores/anexos/placa-didatica-p51usb/Monitor.hex/view">FlashMon51 modificado para a P51USB</a></li>
+            </ul>
+        </dd>
+</dl>
+</p>
+
+<p>O FlashMon51 Não possui originalmente versão para o AT89C5131A-M.</p>
+
+<h3>
+<a name="flashmon" class="anchor" href="#flashmon"><span class="octicon octicon-link"></span></a>Gravação do FlashMon51</h3>
+
+<p>Inicialmente, é necessário gravar o FlashMon51 na memória do microcontrolador.
+</p>
+<p>
+Este procedimento deverá ser feito obtendo-se o arquivo HEX do FlashMon51 para o AT89C5131A-M e gravando-o utilizando o flip conforme procedimento descrito no <a href="helloworld.html#flip">exemplo introdutório</a>.
+</p>
+
+
+<h3>
+<a name="uvision" class="anchor" href="#uvision"><span class="octicon octicon-link"></span></a>Configuração do uVision</h3>
+
+Assim que o flashmon estiver gravado na placa será necessário efetuar a configuração do uVision para utilizar-lo.</p>
+
+<p> Neste momento, caso ainda não esteja com o projeto a ser depurado aberto, abra-o. Caso não tenha um projeto, veja no <a href="helloworld.html#uvision">exemplo introdutório</a> como criar um.</p>
+
+<p>
+Nas opções do projeto, na aba <code>Debug</code> deverá ser selecionado o item <code>Use Keil Monitor-51 Driver</code>, conforme a figura abaixo.
+
+<img src="images\debug\uvision14.png" alt="">
+
+A seguir, será necessário escolher a porta serial, conforme a figura abaixo.
+
+<img src="images\debug\uvision15.png" alt="">
+
+<p>Esta escolha deverá ser feita de forma que a porta utilizada seja aquela listada no gerenciador de dispositivo do sistema, como por exemplo:</p>
+
+<img src="images\debug\taskman1.png" alt="">
+
+<p>Pronto! Você já está com o ambiente configurado!</p>
+
+<h3>
+<a name="debug" class="anchor" href="#debug"><span class="octicon octicon-link"></span></a>Colocando a placa em modo Debug</h3>
+
+<p>Agora que o ambiente já está configurado, precisamos colocar a placa em modo debug. Para isso, siga os seguintes passos:</p>
+
+<dl>
+    <dt>Com a P51USB já conectada ao computador host:</dt>
+    <dd>            
+        <ul>
+        <li>1. Remova o jumper J_USB, caso esteja conectado</li>
+        <li>2. Aperte e segure a chave SW1</li>
+        <li>3. Aperte momentaneamente a chave RST</li>
+        <li>4. Solte a chave SW1</li>    
+        </ul>
+    </dd>
+    <p>Obs: Note que durante a execução do monitor o jumper J_USB deverá estar desconectado. (Exceto se o programa a ser depurado faça o uso da porta USB nativa)</p>
+ </dl>
+
+<p>Quando a placa estiver em modo debug, o LED2 permanecerá aceso até que um código seja carregado.</p>
+
+<p>Pronto! Você já está com a placa pronta para iniciar a depuração!</p>
+
+<h3>
+<a name="load" class="anchor" href="#load"><span class="octicon octicon-link"></span></a>Carga do programa via FlashMon51</h3>
+
+Uma vez que a placa estiver em modo Debug, para efetuar a carga do programa basta iniciar a sessão de debug através do item <code>Start Debug Session</code> conforme a figura abaixo.
+
+<img src="images\debug\uvision16.png" alt="">
+
+Uma mensagem indicando que o programa possui um limite poderá ser exibida, apenas pressione <code>OK</code>.
+
+<img src="images\debug\uvision17.png" alt="">
+
+A tela inicial do modo Debug será similar a figura abaixo, com setas indicando a linha de código que está aguardando para ser executada.
+
+<img src="images\debug\uvision18.png" alt="">
+
+Agora é só executar passo a passo, utilizar break-points ou outras técnicas de debug e corrigir todos os problemas dos seus programas!
+
+
+<h2>Parabéns! Você completou o exemplo de depuração!</h2>
+<p>Agora você já está apto a seguir para os <a href="exemplos.html">demais exemplos</a>.</p>
+
+
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">P51USB maintained by <a href="https://github.com/MikhailKoslowski">MikhailKoslowski</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
