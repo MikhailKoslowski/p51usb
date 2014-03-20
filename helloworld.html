@@ -127,6 +127,7 @@ LJMP main
 
 main:
 	JNB SW1, toggle
+  SJMP main
 toggle:
 	CPL LED3
 	SJMP main
@@ -171,7 +172,7 @@ A P51USB já possui uma chave para este fim, chamada ISP.</p>
         <li>5. Conecte o jumper J_USB</li>           
         </ul>
     </dd>
-    <p>Obs: Na primeira conexão com o computador host poderá haver a necessidade de instalação dos <a href="drivers.html">drivers</a>.</p>
+    <p>Obs: Na primeira conexão com o computador host poderá haver a necessidade de instalação dos <a href="drivers.html#softwares">drivers</a>.</p>
  </dl>
  <p>Para certificar-se que a placa encontra-se em modo bootloader verifique se:
  <ul>

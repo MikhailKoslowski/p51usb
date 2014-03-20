@@ -91,8 +91,9 @@ Assim que o flashmon estiver gravado na placa será necessário efetuar a config
 
 <p> Neste momento, caso ainda não esteja com o projeto a ser depurado aberto, abra-o. Caso não tenha um projeto, veja no <a href="helloworld.html#uvision">exemplo introdutório</a> como criar um.</p>
 
+
 <p>
-Nas opções do projeto, na aba <code>Debug</code> deverá ser selecionado o item <code>Use Keil Monitor-51 Driver</code>, conforme a figura abaixo.
+Nas opções do projeto, na aba <code>Debug</code> deverá ser selecionado o item <code>Use Keil Monitor-51 Driver</code>, conforme a figura abaixo.</p>
 
 <img src="images\debug\uvision14.png" alt="">
 
@@ -105,6 +106,8 @@ A seguir, será necessário escolher a porta serial, conforme a figura abaixo.
 <img src="images\debug\taskman1.png" alt="">
 
 <p>Pronto! Você já está com o ambiente configurado!</p>
+
+<box><h4>Importante!</h4>Lembre-se de alterar o início do programa para o endereço <code>0x2000</code> pois o FlashMon51 reside nos endereços mais baixos da memória e devemos então colocar o nosso programa logo acima dele.</box>
 
 <h3>
 <a name="debug" class="anchor" href="#debug"><span class="octicon octicon-link"></span></a>Colocando a placa em modo Debug</h3>
